@@ -4,16 +4,17 @@
 import os
 import sys
 import re
+import time
 
 __author__ = 'Libao Jin'
 __create_date__ = '01/13/2017'
 __last_update_date__ = '01/14/2017'
 __copyright__ = "Copyright (c) 2017 Libao Jin"
-__license__ = "GPL"
-__version__ = "1.0.1"
+__license__ = "MIT"
+__version__ = "1.1.0"
 __maintainer__ = "Libao Jin"
 __email__ = "jinlibao@outlook.com"
-__status__ = "Production"
+__status__ = "In process"
 
 class compile():
     '''Compile pandoc file to PDF, M$ Word documents etc.'''
@@ -28,6 +29,7 @@ class compile():
     first_name = 'Jin'
     email = 'ljin1@uwyo.edu'
     author = r'{0} {1} (\\url{{{2}}})'.format(last_name, first_name, email)
+    date = '01/01/2017'
 
     def __init__(self):
         '''Initialization of class compile'''
@@ -80,7 +82,14 @@ class compile():
         self.title = '{0} {1} - {2} {3} {4}'.format(math, course_number, course_name, doc_type, doc_number)
         print(self.title)
 
-    def update_author(self):
+    def update_date(self):
+        t = time.localtime()
+        day = str(t.tm_mday).zfill(2)
+        month = str(t.tm_mon).zfill(2)
+        year = str(t.tm_year).zfill(4)
+        self.date = '{0}/{1}/{2}'.format(month, day, year)
+
+    def update_author_1(self):
         '''Update author information in the source file to be compiled.'''
         source_file = self.source_file_hw
         author = self.author
@@ -88,10 +97,29 @@ class compile():
         content = f.read()
         string = r'\\author{[\w\d\s]*}'
         p = re.compile(string)
-        content = p.sub('\\\\author{{{0}}}'.format(author), content)
+        content = p.sub(r'\\author{{{0}}}'.format(author), content)
         f.close()
         f = open(source_file, 'w')
         f.write(content)
+        f.close()
+
+    def update_author_2(self):
+        '''Update author information in the source file to be compiled.'''
+        source_file = self.source_file_hw
+        author = self.author
+        date = self.date
+        metadata = self.metadata[0]
+        doc_number = str(metadata[3]).zfill(2)
+        print(doc_number + date + author)
+        f = open(source_file, 'r')
+        content = f.read()
+        string = r'#\s[\d\w]+, \d{2}/\d{2}/\d{4}}{[\w\d\s@{}()\\\.-]*}'
+        p = re.compile(string)
+        content = p.sub('# {0}, {1}}}{{{2}}}'.format(doc_number, date, author), content)
+        f.close()
+        f = open(source_file, 'w')
+        f.write(content)
+        f.close()
 
     def update_title(self):
         '''Update title in the source file to be compiled.'''
@@ -101,7 +129,7 @@ class compile():
         content = f.read()
         string = r'\\title{[\w\d\s-]*}'
         p = re.compile(string)
-        content = p.sub('\\\\title{{{0}}}'.format(title), content)
+        content = p.sub(r'\\title{{{0}}}'.format(title), content)
         f.close()
         f = open(source_file, 'w')
         f.write(content)
@@ -136,8 +164,8 @@ class compile():
         content = f.read()
         string = r'\\section{'
         p = re.compile(string)
-        content = p.sub(r'\\section*{}{\\textbf ', content, count=1)
-        content = p.sub(r'\\newpage\n\\section*{}{\\textbf ', content)
+        content = p.sub(r'\\section*{}{\\bfseries ', content, count=1)
+        content = p.sub(r'\\newpage\n\\section*{}{\\bfseries ', content)
         string = r'\\begin{solution}'
         p = re.compile(string)
         content = p.sub(r'{\\em Ans.}', content)
@@ -172,18 +200,21 @@ class compile():
 
         if len(sys.argv) == 1:
             print('Heading Style: Normal.')
+            self.update_author_1()
         elif sys.argv[1] == '1':
             print('Heading Style: Boldface.')
             self.heading_style_1()
+            self.update_author_1()
         elif sys.argv[1] == '2':
             print('Heading Style: Template of MATH 5400.')
+            self.update_date()
             self.update_source_file_hw()
             self.heading_style_2()
+            self.update_author_2()
         else:
             print('Error.')
 
         self.update_title()
-        self.update_author()
         self.compile_default()
 
 if __name__ == '__main__':
