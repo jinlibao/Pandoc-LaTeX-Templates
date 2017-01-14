@@ -1,0 +1,53 @@
+\documentclass[11pt]{article}
+\usepackage{verbatim,amsthm,amsmath,amsfonts,graphics,graphicx,setspace,
+  float,multirow,amssymb,algorithm,algorithmicx,algpseudocode,latexsym,
+  enumerate}
+
+\def\Xint#1{\mathchoice
+{\XXint\displaystyle\textstyle{#1}}%
+{\XXint\textstyle\scriptstyle{#1}}%
+{\XXint\scriptstyle\scriptscriptstyle{#1}}%
+{\XXint\scriptscriptstyle\scriptscriptstyle{#1}}%
+\!\int}
+\def\XXint#1#2#3{{\setbox0=\hbox{$#1{#2#3}{\int}$ }
+\vcenter{\hbox{$#2#3$ }}\kern-.6\wd0}}
+\def\ddashint{\Xint=}
+\def\dashint{\Xint-}
+
+\providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\usepackage[T1]{fontenc}
+\usepackage{url,graphicx,tabularx,array}
+\usepackage{pdfpages}
+\usepackage{palatino, mathpazo}
+\setlength{\parskip}{1ex} %--skip lines between paragraphs
+\setlength{\parindent}{0pt} %--don't indent paragraphs
+
+%-- Commands for header
+\renewcommand{\title}[1]{\textbf{#1}\\}
+\renewcommand{\line}{\begin{tabularx}{\textwidth}{X>{\raggedleft}X}\hline\\\end{tabularx}\\[-0.5cm]}
+\newcommand{\leftright}[2]{\begin{tabularx}{\textwidth}{X>{\raggedleft}X}#1%
+& #2\\\end{tabularx}\\[-0.5cm]}
+
+ \def\emptyline{\vspace{12pt}}
+%\usepackage{nopageno}
+\usepackage[left=2cm,right=2cm,top=1.cm,bottom=2cm]{geometry}
+%
+%
+\renewcommand{\baselinestretch}{1.2}
+\renewcommand{\theequation}{\thesection.\arabic{equation}}
+\numberwithin{equation}{section}
+\def\bfs{\boldsymbol}
+\allowdisplaybreaks
+%
+\begin{document}
+\title{MATH 5400-01 Methods of Applied Mathematics I}
+\line
+\leftright{Written Assignment \# 05, 10/26/2016}{Libao Jin}
+
+\vspace*{-2cm}
+\renewcommand{\theequation}{1.\arabic{equation}}
+\setcounter{equation}{0}
+\input{body.tex}
+\end{document}

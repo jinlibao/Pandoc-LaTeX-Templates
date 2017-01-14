@@ -1,0 +1,80 @@
+\documentclass[twosides]{article}
+
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{enumerate}
+\usepackage{lipsum}
+
+\def\Xint#1{\mathchoice
+{\XXint\displaystyle\textstyle{#1}}%
+{\XXint\textstyle\scriptstyle{#1}}%
+{\XXint\scriptstyle\scriptscriptstyle{#1}}%
+{\XXint\scriptscriptstyle\scriptscriptstyle{#1}}%
+\!\int}
+\def\XXint#1#2#3{{\setbox0=\hbox{$#1{#2#3}{\int}$ }
+\vcenter{\hbox{$#2#3$ }}\kern-.6\wd0}}
+\def\ddashint{\Xint=}
+\def\dashint{\Xint-}
+
+\providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setlength{\parindent}{0pt}
+
+\newenvironment{solution}
+{\begin{proof}[\textsc{Solution}]}
+  {\end{proof}}
+
+\author{Libao Jin (\url{ljin1@uwyo.edu})}
+\title{Pandoc-LaTeX 1000 - Unknown Course Name Homework Template}
+\date{\today}
+
+\makeatletter
+\let\Author\@author
+\let\Title\@title
+\makeatother
+
+\usepackage[left=0.5in, right=0.5in, top=0.8in, bottom=0.8in]{geometry}
+\usepackage{hyperref}
+\hypersetup{
+    %--------------- pdfinfo ------------------
+    pdftitle  = {\Title},
+    pdfauthor = {\Author},
+    pdfsubject= {\Title},
+    pdfkeywords={},
+    %--------------- links --------------------
+    colorlinks= {true},
+    linkcolor = {red},
+    citecolor = {cyan},
+    bookmarks = {false},
+    bookmarksnumbered = {true},
+    %--------------- pagemode -----------------
+    pdffitwindow={true},
+    pdftoolbar= {false},
+    pdfmenubar= {false},
+    pdfpagelayout = {OneColumn},
+    pdfstartview = {FitH},
+    pdfpagemode = {UseNone},
+    %pdfnonfullscreenpagemode = {UseNone}
+}
+
+
+\usepackage{fancyhdr}
+\fancypagestyle{mystyle}{
+    \fancyhf{}
+    \fancyhead[LO,LE]{\footnotesize \quad \Author}
+    \fancyhead[CO,CE]{\footnotesize \Title}
+    \fancyhead[RO,RE]{\footnotesize \thepage \quad}
+%   \fancyfoot[RO,LE]{\author}
+%   \fancyfoot[CO,CE]{\footnotesize\thepage}
+%   \fancyfoot[LO,RE]{\date}
+    \pagenumbering{arabic}
+}
+\pagestyle{mystyle}
+\allowdisplaybreaks
+
+\begin{document}
+\maketitle
+\input{body.tex}
+\end{document}
