@@ -1,13 +1,17 @@
 # Pandoc_LaTeX_Templates
 
-This repository contains various templates for homework, and etc.
+This repository contains various templates for homework and etc.
 
 ## Basic Information
 
 **Maintainer**: [Libao Jin](http://libao.in/)
+
 **Email**: [jinlibao@outlook.com](mailto:jinlibao@outlook.com)
+
 **Create date**: January 13, 2017
+
 **Update date**: January 14, 2017
+
 **Latest version**:  [v1.1.0](https://github.com/jinlibao/Pandoc_LaTeX_Templates/releases/tag/v1.1.0)
 
 ## Template 1: Pandoc LaTeX Template for Homework (Pandoc-LaTeX 1000)
@@ -31,7 +35,7 @@ Here is the basic structure of the folder:
 └── README.md
 ```
 
-Ideally, the folder "Pandoc-LaTeX\ 1000" can be extended as follows:
+Ideally, the folder `Pandoc-LaTeX\ 1000` can be extended as follows:
 
 ```
 MATH5200
@@ -67,7 +71,7 @@ MATH5200
 └── Problem.Sets
 ```
 
-The root folder can be a folder for one specific course, say MATH5200 (Real Variables), which contains several subfolders, like Homework, Lecture.Notes, Problem.Sets, etc. And in the folder Homework, there are also several different subfolders such 1, 2, 3, … which refers to all the homework in the semester.
+The root folder can be a folder for one specific course, say MATH5200 (Real Variables), which contains several subfolders, like `Homework`, `Lecture.Notes`, `Problem.Sets`, etc. And in the folder Homework, there are also several different subfolders such `1`, `2`, `3`, … which refers to all the homework in the semester.
 
 ### Usage
 
