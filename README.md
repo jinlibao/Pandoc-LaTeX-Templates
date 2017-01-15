@@ -4,15 +4,11 @@ This repository contains various templates for homework and etc.
 
 ## Basic Information
 
-**Maintainer**: [Libao Jin](http://libao.in/)
-
-**Email**: [jinlibao@outlook.com](mailto:jinlibao@outlook.com)
-
-**Create date**: January 13, 2017
-
-**Update date**: January 14, 2017
-
-**Latest version**:  [v1.1.0](https://github.com/jinlibao/Pandoc_LaTeX_Templates/releases/tag/v1.1.0)
+* **Maintainer**: [Libao Jin](http://libao.in/)
+* **Email**: [jinlibao@outlook.com](mailto:jinlibao@outlook.com)
+* **Create date**: January 13, 2017
+* **Update date**: January 14, 2017
+* **Latest version**:  [v1.1.0](https://github.com/jinlibao/Pandoc_LaTeX_Templates/releases/tag/v1.1.0)
 
 ## Template 1: Pandoc LaTeX Template for Homework (Pandoc-LaTeX 1000)
 

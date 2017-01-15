@@ -11,7 +11,7 @@ __create_date__ = '01/13/2017'
 __last_update_date__ = '01/14/2017'
 __copyright__ = "Copyright (c) 2017 Libao Jin"
 __license__ = "MIT"
-__version__ = "1.1.0"
+__version__ = "1.1.1"
 __maintainer__ = "Libao Jin"
 __email__ = "jinlibao@outlook.com"
 __status__ = "In process"
@@ -41,7 +41,7 @@ class compile():
         folder = self.folder
         pathname = os.path.realpath(folder)
         print(pathname)
-        string = '([\w-]+) *(\d{4,5})/(\w*)/([\w\d]*)/'
+        string = '([\w-]+) *(\d{4,5})/([\w\d\s.-]+)/([\w\d]+)/'
         pattern = re.compile(string)
         self.metadata = re.findall(pattern, pathname)
         print(self.metadata)
@@ -52,7 +52,7 @@ class compile():
         print(metadata)
         math = metadata[0]
         course_number = metadata[1]
-        doc_type = metadata[2]
+        doc_type = metadata[2].replace(' ', '.')
         doc_number = metadata[3]
         self.filename = '{0}.{1}.{2}.{3}_{4}.{5}.pdf'.format(math, course_number, doc_type, doc_number, self.last_name, self.first_name)
 
@@ -61,7 +61,9 @@ class compile():
         metadata = self.metadata[0]
         math = metadata[0]
         course_number = metadata[1]
-        doc_type = metadata[2]
+        doc_type = metadata[2].replace('.', ' ')
+        print(metadata[2])
+        print(doc_type)
         doc_number = metadata[3]
         if course_number == '5200':
             course_name = 'Real Variables'
@@ -127,7 +129,7 @@ class compile():
         title = self.title
         f = open(source_file, 'r')
         content = f.read()
-        string = r'\\title{[\w\d\s-]*}'
+        string = r'\\title{[\w\d\s.-]*}'
         p = re.compile(string)
         content = p.sub(r'\\title{{{0}}}'.format(title), content)
         f.close()
