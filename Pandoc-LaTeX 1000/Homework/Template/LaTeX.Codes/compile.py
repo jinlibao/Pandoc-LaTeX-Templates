@@ -151,7 +151,7 @@ class compile():
         p = re.compile(string)
         content = p.sub(r'\\textbf', content, count=1)
         content = p.sub(r'\\newpage\n\\textbf', content)
-        string = r'}\\label{[\w\d-]+}'
+        string = r'}\\label{[\w\d-]+}\n'
         p = re.compile(string)
         content = p.sub('.}', content)
         f.close()
