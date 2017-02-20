@@ -1,60 +1,114 @@
 # Problem 1
-
+(Uniqueness of elementary measure). Let $d \geq 1$. Let $m': \mathcal{E}(\mathbb{R}^d) \to \mathbb{R}^+$ be a map from the collection $\mathcal{E}(\mathbb{R}^d)$ of elementary subsets of $\mathbb{R}^d$ to the non-negative reals that obeys the non-negativity, finite additivity, and translation invariance properties. Show that there exists a constant $c \in \mathbb{R}^+$ such that $m'(E) = cm(E)$ for all elementary sets $E$. In particular, if we impose the additional normalisation $m'([0,1)^d) = 1$, then $m' \equiv m$. (*Hint*: Set $c := m'([0,1)^d)$, and then compute $m'([0,\frac{1}{n})^d)$ for any positive integer $n$.)
 \begin{solution}
 
 \end{solution}
 
 # Problem 2
-
+This exercise assumes familiarity with linear algebra. Let $L: \mathbb{R}^d \to \mathbb{R}^d$ be a linear transformation.
+\begin{enumerate}[(1)]
+\item Show that there exists a non-negative real number $D$ such that $m(L(E)) = Dm(E)$ for every elementary set $E$ (note from previous exercises that $L(E)$ is Jordan measurable). (\textit{Hint}: Apply Exercise 1.1.3 to the map $E \mapsto m(L(E))$.)
+\item Show that if $E$ is Jordan measurable, then $L(E)$ is also, and $m(L(E)) = Dm(E)$.
+\item Show that $D = |\det{L}|$. (\textit{Hint}: Work first with the case when $L$ is an elementary transformation, using Gaussian elimination. Alternatively, work with the cases when $L$ is a diagonal transformation or an orthogonal transformation, using the unit ball in the latter case, and use the polar decomposition.)
+\end{enumerate}
 \begin{solution}
-
+\quad
+\begin{enumerate}[(1)]
+\item
+\end{enumerate}
 \end{solution}
 
 # Problem 3
-
+Let $E \subset \mathbb{R}^d$ be a bounded set.
+\begin{enumerate}[(1)]
+\item Show that $E$ and the closure $\overline{E}$ of $E$ have the same Jordan outer measure.
+\item Show that $E$ and the interior $E^{\circ}$ of $E$ have the same Jordan inner measure.
+\item Show that $E$ is Jordan measurable if and only if the topological boundary $\partial E$ of $E$ has Jordan outer measure zero.
+\item Show that the \textit{bullet-riddled square} $[0,1]^2 \backslash \mathbb{Q}^2$, and set of bullets $[0,1]^2 \cap \mathbb{Q}^2$, both have Jordan inner measure zero and Jordan outer measure one. In particular, both sets are not Jordan measurable.
+\end{enumerate}
 \begin{solution}
-
+\quad
+\begin{enumerate}[(1)]
+\item
+\end{enumerate}
 \end{solution}
 
 # Problem 4
-
+Show that if a set $E \subset \mathbb{R}^d$ is expressible as the coutable union of almost disjoint boxes, then the Lebesgue out measure $E$ is equal to the Jordan inner measure: $m^{*}(E) = m_{*,(J)}(E)$, where we extend the definition of Jordan inner measure to unbounded sets in the obvious manner.
 \begin{solution}
 
 \end{solution}
 
 # Problem 5
-
+Give an example to show that the reverse statement
+$$
+m^{*}(E) = \sup\limits_{U \subset E, U \text{~open}} m^{*}(U)
+$$
+is false. (For the corrected version of this statement, see Exercise 1.2.15.)
 \begin{solution}
 
 \end{solution}
 
 # Problem 6
-
+(Criteria for measurability). Let $E \subset \mathbb{R}^d$. Show that the following are equivalent:
 \begin{solution}
 
 \end{solution}
 
 # Problem 7
-
+Show that every Jordan measurable set is Lebesgue measurable.
 \begin{solution}
 
 \end{solution}
 
 # Problem 8
-
+(Middle thirds Cantor set). Let $I_0 := [0,1]$, be the unit interval, let $I_1 := [0, 1/3] \cup [2/3, 1]$ be $I_0$ with interior of the middle third interval removed, let $I_2: = [0,1/9] \cup [2/9,1/3] \cup [2/3,7/9] \cup [8/9,1]$ be $I_1$ with the interior of the middle third of each of the two intervals of $I_1$ removed, and so forth. More formally, write
+$$
+I_n := \bigcup_{a_1,\ldots,a_n \in \{0,2\}} \left[ \sum_{i=1}^n \frac{a_i}{3^i}, \sum_{i=1}^n \frac{a_i}{3^i} + \frac{1}{3^n} \right].
+$$
+Let $C := \bigcap_{n=1}^{\infty} I_n$ be the intersection of all the elementary sets $I_n$. Show that $C$ is compact, uncountable, and a null set.
 \begin{solution}
 
 \end{solution}
 
 # Problem 9
-
+Let $E \subset \mathbb{R}^d$. Show that $E$ is containted in a Lebesgue measurable set of measure exactly equal to $m^{*}(E)$.
 \begin{solution}
 
 \end{solution}
 
 # Problem 10
-
+(Inner regularity) Let $E \subset \mathbb{R}^d$ be Lebesgue measurable. Show that
+$$
+m(E) = \sup\limits_{K \subset E, K \text{~compact}} m(K).
+$$
 \begin{solution}
 
 \end{solution}
 
+# Problem 11
+Let $E \subset \mathbb{R}^d$. Show that the following are equivalent:
+\begin{enumerate}[(i)]
+\item $E$ is Lebesgue measurable.
+\item $E$ is a $G_{\delta}$ set with a null set removed.
+\item $E$ is the union of a $F_{\sigma}$ set and a null set.
+\end{enumerate}
+\begin{solution}
+
+\end{solution}
+
+# Problem 12
+Define a *continuously differentiable curve* in $\mathbb{R}^d$ to be a set of the form $\{\gamma(t): a \leq t \leq t\}$ where $[a, b]$ is a closed interval and $\gamma: [a, b] \to \mathbb{R}^d$ is a continuously differentiable function.
+\begin{enumerate}[(i)]
+\item If $d \geq 2$, show that every continuously differentiable curve has Lebesgue measure zero. (Why is the condition $d \geq 2$ necessary?)
+\item Conclude that if $d \geq 2$, then the unit cube $[0, 1]^d$ cannot be covered by countably many continuously differentiable curves.
+\end{enumerate}
+\begin{solution}
+
+\end{solution}
+
+# Problem 13
+(Outer measure is not finitely additive). Show that there exists disjoint bounded subsets $E$, $F$ of the real line such that $m^{*}(E \cup F) \ne m^{*}(E) + m^{*}(F)$. (*Hint*: Show that the set constructed in the proof of the above proposition has positive outer measure.)
+\begin{solution}
+
+\end{solution}

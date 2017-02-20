@@ -189,6 +189,16 @@ class compile():
         os.system('rm *.log *.aux *.idx *.out *~')
         os.rename('{0}'.format(self.output_file_hw), path)
 
+    def compile_xelatex(self):
+        '''Compile files by calling pandoc, pdflatex and rm commands to keep the file structure organized.'''
+        path = '../' + self.filename
+        if os.path.exists(path):
+            os.remove(path)
+        os.system('xelatex -interaction=batchmode {0}'.format(self.source_file_hw))
+        os.system('xelatex -interaction=batchmode {0}'.format(self.source_file_hw))
+        os.system('rm *.log *.aux *.idx *.out *~')
+        os.rename('{0}'.format(self.output_file_hw), path)
+
     def generate_source_file_body(self):
         '''Generate source file body.tex from body.pdc by using pandoc'''
         os.system('pandoc -f markdown -o body.tex body.pdc')
@@ -217,7 +227,12 @@ class compile():
             print('Error.')
 
         self.update_title()
-        self.compile_default()
+        if len(sys.argv) <= 2:
+            self.compile_default()
+        elif sys.argv[2] == 'p':
+            self.compile_default()
+        elif sys.argv[2] == 'x':
+            self.compile_xelatex()
 
 if __name__ == '__main__':
     compiler = compile()
