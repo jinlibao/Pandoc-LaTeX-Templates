@@ -90,3 +90,7 @@ ENV/
 
 # macOS attribute files
 *.DS_Store
+
+# VIM temp files
+*.un~
+*~

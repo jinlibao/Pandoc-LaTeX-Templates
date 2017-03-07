@@ -5,16 +5,17 @@ import os
 import sys
 import re
 import time
+import platform
 
 __author__ = 'Libao Jin'
 __create_date__ = '01/13/2017'
-__last_update_date__ = '01/14/2017'
+__last_update_date__ = '03/07/2017'
 __copyright__ = "Copyright (c) 2017 Libao Jin"
 __license__ = "MIT"
-__version__ = "1.1.1"
+__version__ = "1.3.0"
 __maintainer__ = "Libao Jin"
 __email__ = "jinlibao@outlook.com"
-__status__ = "In process"
+__status__ = "Complete"
 
 class compile():
     '''Compile pandoc file to PDF, M$ Word documents etc.'''
@@ -30,18 +31,24 @@ class compile():
     email = 'ljin1@uwyo.edu'
     author = r'{0} {1} (\\url{{{2}}})'.format(last_name, first_name, email)
     date = '01/01/2017'
+    platform = ''
 
     def __init__(self):
         '''Initialization of class compile'''
         self.folder = '.'
         self.metadata = [('', '', '', '')]
+        self.platform = platform.system()
 
     def get_metadata(self):
         '''Get information from the folder structure and extract course information, and etc.'''
         folder = self.folder
         pathname = os.path.realpath(folder)
         print(pathname)
-        string = '([\w-]+) *(\d{4,5})/([\w\d\s.-]+)/([\w\d]+)/'
+        print()
+        if self.platform == 'Windows':
+            string = r'([\w-]+) *(\d{4,5})\\([\w\d\s.-]+)\\([\w\d]+)\\'
+        else:
+            string = '([\w-]+) *(\d{4,5})/([\w\d\s.-]+)/([\w\d]+)/'
         pattern = re.compile(string)
         self.metadata = re.findall(pattern, pathname)
         print(self.metadata)
@@ -178,26 +185,69 @@ class compile():
         f = open(source_file, 'w')
         f.write(content)
         f.close()
+    
+    def update_package(self, option):
+        '''Update title in the source file to be compiled.'''
+        source_file = self.source_file_hw
+        title = self.title
+        f = open(source_file, 'r')
+        content = f.read()
+        if option == 'p':
+            string = r'\\usepackage{fontspec}'
+            p = re.compile(string)
+            content = p.sub(r'% \\usepackage{fontspec}', content)
+            string = r'\\setmonofont\[Scale=0.8\]{Monaco}'
+            p = re.compile(string)
+            content = p.sub(r'% \\setmonofont[Scale=0.8]{Monaco}', content)
+        elif option == 'x':
+            string = r'[% ]*\\usepackage{fontspec}'
+            p = re.compile(string)
+            content = p.sub(r'\\usepackage{fontspec}', content)
+            string = r'[% ]*\\setmonofont\[Scale=0.8\]{Monaco}'
+            p = re.compile(string)
+            content = p.sub(r'\\setmonofont[Scale=0.8]{Monaco}', content)
+        f.close()
+        f = open(source_file, 'w')
+        f.write(content)
+        f.close()
 
     def compile_default(self):
         '''Compile files by calling pandoc, pdflatex and rm commands to keep the file structure organized.'''
-        path = '../' + self.filename
+        if self.platform == 'Windows':
+            path = '..\\' + self.filename
+        else:
+            path = '../' + self.filename
         if os.path.exists(path):
             os.remove(path)
-        os.system('pdflatex -interaction=batchmode {0}'.format(self.source_file_hw))
-        os.system('pdflatex -interaction=batchmode {0}'.format(self.source_file_hw))
-        os.system('rm *.log *.aux *.idx *.out *~')
-        os.rename('{0}'.format(self.output_file_hw), path)
+        if self.platform == 'Windows':
+            os.system('pdflatex -quiet {0}'.format(self.source_file_hw))
+            os.system('pdflatex -quiet {0}'.format(self.source_file_hw))
+            os.system('del *.log *.aux *.idx *.out *~')
+            os.rename('{0}'.format(self.output_file_hw), path)
+        else:
+            os.system('pdflatex -interaction=batchmode {0}'.format(self.source_file_hw))
+            os.system('pdflatex -interaction=batchmode {0}'.format(self.source_file_hw))
+            os.system('rm *.log *.aux *.idx *.out *~')
+            os.rename('{0}'.format(self.output_file_hw), path)
 
     def compile_xelatex(self):
         '''Compile files by calling pandoc, pdflatex and rm commands to keep the file structure organized.'''
-        path = '../' + self.filename
+        if self.platform == 'Windows':
+            path = '..\\' + self.filename
+        else:
+            path = '../' + self.filename
         if os.path.exists(path):
             os.remove(path)
-        os.system('xelatex -interaction=batchmode {0}'.format(self.source_file_hw))
-        os.system('xelatex -interaction=batchmode {0}'.format(self.source_file_hw))
-        os.system('rm *.log *.aux *.idx *.out *~')
-        os.rename('{0}'.format(self.output_file_hw), path)
+        if self.platform == 'Windows':
+            os.system('xelatex -quiet {0}'.format(self.source_file_hw))
+            os.system('xelatex -quiet {0}'.format(self.source_file_hw))
+            os.system('del *.log *.aux *.idx *.out *~')
+            os.rename('{0}'.format(self.output_file_hw), path)
+        else:
+            os.system('xelatex -interaction=batchmode {0}'.format(self.source_file_hw))
+            os.system('xelatex -interaction=batchmode {0}'.format(self.source_file_hw))
+            os.system('rm *.log *.aux *.idx *.out *~')
+            os.rename('{0}'.format(self.output_file_hw), path)
 
     def generate_source_file_body(self):
         '''Generate source file body.tex from body.pdc by using pandoc'''
@@ -228,10 +278,13 @@ class compile():
 
         self.update_title()
         if len(sys.argv) <= 2:
+            self.update_package('p')
             self.compile_default()
         elif sys.argv[2] == 'p':
             self.compile_default()
+            self.update_package('p')
         elif sys.argv[2] == 'x':
+            self.update_package('x')
             self.compile_xelatex()
 
 if __name__ == '__main__':
