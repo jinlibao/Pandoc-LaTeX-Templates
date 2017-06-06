@@ -185,19 +185,18 @@ class compile():
         f = open(source_file, 'w')
         f.write(content)
         f.close()
-    
+
     def update_package(self, option):
         '''Update title in the source file to be compiled.'''
         source_file = self.source_file_hw
-        title = self.title
         f = open(source_file, 'r')
         content = f.read()
         if option == 'p':
-            string = r'\\usepackage{fontspec}'
-            p = re.compile(string)
+            string = r'^\\usepackage{fontspec}'
+            p = re.compile(string, re.MULTILINE)
             content = p.sub(r'% \\usepackage{fontspec}', content)
-            string = r'\\setmonofont\[Scale=0.8\]{Monaco}'
-            p = re.compile(string)
+            string = r'^\\setmonofont\[Scale=0.8\]{Monaco}'
+            p = re.compile(string, re.MULTILINE)
             content = p.sub(r'% \\setmonofont[Scale=0.8]{Monaco}', content)
         elif option == 'x':
             string = r'[% ]*\\usepackage{fontspec}'
@@ -211,7 +210,7 @@ class compile():
         f.write(content)
         f.close()
 
-    def compile_default(self):
+    def compile_pdflatex(self):
         '''Compile files by calling pandoc, pdflatex and rm commands to keep the file structure organized.'''
         if self.platform == 'Windows':
             path = '..\\' + self.filename
@@ -222,12 +221,12 @@ class compile():
         if self.platform == 'Windows':
             os.system('pdflatex -quiet {0}'.format(self.source_file_hw))
             os.system('pdflatex -quiet {0}'.format(self.source_file_hw))
-            os.system('del *.log *.aux *.idx *.out *~')
+            os.system('del *.log *.aux *.idx *.out *.toc *~')
             os.rename('{0}'.format(self.output_file_hw), path)
         else:
             os.system('pdflatex -interaction=batchmode {0}'.format(self.source_file_hw))
             os.system('pdflatex -interaction=batchmode {0}'.format(self.source_file_hw))
-            os.system('rm *.log *.aux *.idx *.out *~')
+            os.system('rm *.log *.aux *.idx *.out *.toc *~')
             os.rename('{0}'.format(self.output_file_hw), path)
 
     def compile_xelatex(self):
@@ -241,12 +240,12 @@ class compile():
         if self.platform == 'Windows':
             os.system('xelatex -quiet {0}'.format(self.source_file_hw))
             os.system('xelatex -quiet {0}'.format(self.source_file_hw))
-            os.system('del *.log *.aux *.idx *.out *~')
+            os.system('del *.log *.aux *.idx *.out *.toc *~')
             os.rename('{0}'.format(self.output_file_hw), path)
         else:
             os.system('xelatex -interaction=batchmode {0}'.format(self.source_file_hw))
             os.system('xelatex -interaction=batchmode {0}'.format(self.source_file_hw))
-            os.system('rm *.log *.aux *.idx *.out *~')
+            os.system('rm *.log *.aux *.idx *.out *.toc *~')
             os.rename('{0}'.format(self.output_file_hw), path)
 
     def generate_source_file_body(self):
@@ -278,14 +277,16 @@ class compile():
 
         self.update_title()
         if len(sys.argv) <= 2:
+            self.update_package('x')
+            self.compile_xelatex()
             self.update_package('p')
-            self.compile_default()
         elif sys.argv[2] == 'p':
-            self.compile_default()
+            self.compile_pdflatex()
             self.update_package('p')
         elif sys.argv[2] == 'x':
             self.update_package('x')
             self.compile_xelatex()
+            self.update_package('p')
 
 if __name__ == '__main__':
     compiler = compile()
