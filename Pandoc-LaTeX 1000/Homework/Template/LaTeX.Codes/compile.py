@@ -9,15 +9,16 @@ import platform
 
 __author__ = 'Libao Jin'
 __create_date__ = '01/13/2017'
-__last_update_date__ = '03/07/2017'
+__last_update_date__ = '08/29/2017'
 __copyright__ = "Copyright (c) 2017 Libao Jin"
 __license__ = "MIT"
-__version__ = "1.3.0"
+__version__ = "1.4.0"
 __maintainer__ = "Libao Jin"
 __email__ = "jinlibao@outlook.com"
 __status__ = "Complete"
 
-class compile():
+
+class Compiler():
     '''Compile pandoc file to PDF, M$ Word documents etc.'''
     folder = '.'
     metadata = ''
@@ -86,6 +87,14 @@ class compile():
             course_name = 'Complex Variables'
         elif course_number == '5400':
             course_name = 'Methods of Applied Mathematics'
+        elif course_number == '5490':
+            course_name = 'Dynamic Big Data'
+        elif course_number == '5340':
+            course_name = 'Computational Methods II'
+        elif course_number == '5270':
+            course_name = 'Functional Analysis'
+        elif course_number == '5590':
+            course_name = 'Combinatorics Inverse Problems'
         else:
             course_name = 'Unknown Course Name'
         self.title = '{0} {1} - {2} {3} {4}'.format(math, course_number, course_name, doc_type, doc_number)
@@ -288,6 +297,7 @@ class compile():
             self.compile_xelatex()
             self.update_package('p')
 
+
 if __name__ == '__main__':
-    compiler = compile()
+    compiler = Compiler()
     compiler.run()
