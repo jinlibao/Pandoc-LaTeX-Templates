@@ -9,10 +9,10 @@ import platform
 
 __author__ = 'Libao Jin'
 __create_date__ = '01/13/2017'
-__last_update_date__ = '08/29/2017'
-__copyright__ = "Copyright (c) 2017 Libao Jin"
+__last_update_date__ = '01/22/2018'
+__copyright__ = "Copyright (c) 2018 Libao Jin"
 __license__ = "MIT"
-__version__ = "1.4.0"
+__version__ = "1.5.0"
 __maintainer__ = "Libao Jin"
 __email__ = "jinlibao@outlook.com"
 __status__ = "Complete"
@@ -75,6 +75,12 @@ class Compiler():
         doc_number = metadata[3]
         if course_number == '5200':
             course_name = 'Real Variables'
+        elif course_number == '5255':
+            course_name = 'Math Theory of Probability'
+        elif course_number == '5590':
+            course_name = 'Applied Graph Theory'
+        elif course_number == '5290':
+            course_name = 'Operator Algebras \& K-Theory'
         elif course_number == '5310':
             course_name = 'Computational Methods'
         elif course_number == '5490':
@@ -157,6 +163,23 @@ class Compiler():
         '''Update source file name according to the option of the chosen document style'''
         self.source_file_hw = self.source_file_hw.replace('hw', replacement)
         self.output_file_hw = self.output_file_hw.replace('hw', replacement)
+
+    def heading_style_0(self):
+        '''Change heading style to not numberred heading.'''
+        source_file = self.source_file_body
+        f = open(source_file, 'r')
+        content = f.read()
+        string = r'\\section'
+        p = re.compile(string)
+        content = p.sub(r'\\textbf', content, count=1)
+        content = p.sub(r'\n\\textbf', content)
+        string = r'}\\label{[\w\d-]+}\n'
+        p = re.compile(string)
+        content = p.sub('.}', content)
+        f.close()
+        f = open(source_file, 'w')
+        f.write(content)
+        f.close()
 
     def heading_style_1(self):
         '''Change heading style to not numberred heading.'''
@@ -270,6 +293,10 @@ class Compiler():
 
         if len(sys.argv) == 1:
             print('Heading Style: Normal.')
+            self.update_author_1()
+        elif sys.argv[1] == '0':
+            print('Heading Style: Boldface.')
+            self.heading_style_0()
             self.update_author_1()
         elif sys.argv[1] == '1':
             print('Heading Style: Boldface.')

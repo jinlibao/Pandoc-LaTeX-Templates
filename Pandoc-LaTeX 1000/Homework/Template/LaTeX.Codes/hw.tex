@@ -1,27 +1,97 @@
-\documentclass[twosides]{article}
-
-\usepackage{graphicx, amsthm, amsmath, amssymb, enumerate,
-            lipsum, color, listings, booktabs}
-\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
-\definecolor{mylilas}{RGB}{170,55,241}
+\documentclass[twosides, usename, dvipsnames, svgnames, table]{article}
+\usepackage{
+    amsthm, amsmath, amssymb, booktabs, caption, color, enumerate, fancyhdr,
+    graphicx, grffile, geometry, hyperref, lipsum, listings, mathtools, tikz,
+    tikzscale, verbatim, xcolor,
+}
+\captionsetup{width=0.95\textwidth}
+\geometry{
+    margin = 1in
+}
 % \usepackage{fontspec}
 % \setmonofont[Scale=0.8]{Monaco}
 
-\lstset{language=MATLAB,%
+\lstdefinestyle{TeX}{
+    basicstyle={\ttfamily\small},
+    breaklines=false,
+    morekeywords={},
+    keywordstyle=\color{DodgerBlue},
+    morekeywords={},
+    identifierstyle=\color{Teal},
+    stringstyle=\color{LightCoral},
+    commentstyle=\color{gray},
+    showstringspaces=false,
+    numberstyle={\tiny \color{CornflowerBlue}},
+    numbersep=9pt,
+    numbers=left,
+    emph={},
+    emphstyle={\color{black} \bfseries},
+    frame=single,
+    backgroundcolor=\color{Snow},
+    tabsize=4,
+    language=[LaTeX]{TeX},
+}
+
+\lstdefinestyle{C}{
+    basicstyle={\ttfamily\small},
+    breaklines=false,
+    morekeywords={},
+    keywordstyle=\color{DodgerBlue},
+    morekeywords={},
+    identifierstyle=\color{Teal},
+    stringstyle=\color{LightCoral},
+    commentstyle=\color{gray},
+    showstringspaces=false,
+    numberstyle={\tiny \color{CornflowerBlue}},
+    numbersep=9pt,
+    numbers=left,
+    emph={},
+    emphstyle={\color{black} \bfseries},
+    frame=single,
+    backgroundcolor=\color{Snow},
+    tabsize=4,
+    language=C,
+}
+
+\lstdefinestyle{Python}{
+    basicstyle={\ttfamily\small},
+    breaklines=false,
+    backgroundcolor=\color{Snow},
+    commentstyle=\color{gray},
+    emph={},
+    emphstyle={\color{black} \bfseries},
+    frame=single,
+    identifierstyle=\color{Teal},
+    keywordstyle=\color{DodgerBlue},
+    language=Python,
+    morekeywords={as, __init__, with, self,},
+    numberstyle={\tiny \color{CornflowerBlue}},
+    numbersep=9pt,
+    numbers=left,
+    stringstyle=\color{LightCoral},
+    showstringspaces=false,
+    tabsize=4,
+}
+
+\lstset{
     basicstyle=\ttfamily,
-    breaklines=false,%
-    morekeywords={matlab2tikz},
-    keywordstyle=\color{blue},%
-    morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
-    identifierstyle=\color{black},%
-    stringstyle=\color{mylilas},
-    commentstyle=\color{mygreen},%
-    showstringspaces=false,%without this there will be a symbol in the places where there is a space
-%    numbers=left,%
-    numberstyle={\tiny \color{black}},% size of the numbers
-    numbersep=9pt, % this defines how far the numbers are from the text
-    emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
-    %emph=[2]{word1,word2}, emphstyle=[2]{style},
+    breaklines=true,
+    morekeywords={},
+    keywordstyle=\color{DodgerBlue},
+    morekeywords={},
+    identifierstyle=\color{Teal},
+    stringstyle=\color{LightCoral},
+    commentstyle=\color{gray},
+    showstringspaces=true,
+    numberstyle={\tiny \color{CornflowerBlue}},
+    numbersep=9pt,
+    numbers=left,
+    emph={},
+    emphstyle={\color{black} \bfseries},
+    frame=single,
+    backgroundcolor=\color{Snow},
+    tabsize=4,
+    language=[LaTeX]{TeX},
 }
 
 \def\Xint#1{\mathchoice
@@ -44,7 +114,7 @@
   {\end{proof}}
 
 \author{Libao Jin (\url{ljin1@uwyo.edu})}
-\title{MATH 5340 - Computational Methods II Lecture Notes 1}
+\title{Pandoc-LaTeX 1000 - Unknown Course Name Homework Template}
 \date{\today}
 
 \makeatletter
@@ -52,8 +122,6 @@
 \let\Title\@title
 \makeatother
 
-\usepackage[left=0.5in, right=0.5in, top=0.8in, bottom=0.8in]{geometry}
-\usepackage{hyperref}
 \hypersetup{
     %--------------- pdfinfo ------------------
     pdftitle  = {\Title},
@@ -76,8 +144,6 @@
     %pdfnonfullscreenpagemode = {UseNone}
 }
 
-
-\usepackage{fancyhdr}
 \fancypagestyle{mystyle}{
     \fancyhf{}
     \fancyhead[LO,LE]{\footnotesize \quad \Author}
