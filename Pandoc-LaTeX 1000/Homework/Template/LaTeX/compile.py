@@ -9,10 +9,10 @@ import platform
 
 __author__ = 'Libao Jin'
 __create_date__ = '01/13/2017'
-__last_update_date__ = '01/22/2018'
+__last_update_date__ = '02/07/2018'
 __copyright__ = "Copyright (c) 2018 Libao Jin"
 __license__ = "MIT"
-__version__ = "1.5.0"
+__version__ = "1.6.0"
 __maintainer__ = "Libao Jin"
 __email__ = "jinlibao@outlook.com"
 __status__ = "Complete"
@@ -24,8 +24,8 @@ class Compiler():
     metadata = ''
     filename = ''
     source_file_body = 'body.tex'
-    source_file_hw = 'hw.tex'
-    output_file_hw = 'hw.pdf'
+    source_file_main = 'main.tex'
+    output_file_main = 'main.pdf'
     title = ''
     last_name = 'Libao'
     first_name = 'Jin'
@@ -115,7 +115,7 @@ class Compiler():
 
     def update_author_1(self):
         '''Update author information in the source file to be compiled.'''
-        source_file = self.source_file_hw
+        source_file = self.source_file_main
         author = self.author
         f = open(source_file, 'r')
         content = f.read()
@@ -129,7 +129,7 @@ class Compiler():
 
     def update_author_2(self):
         '''Update author information in the source file to be compiled.'''
-        source_file = self.source_file_hw
+        source_file = self.source_file_main
         author = self.author
         date = self.date
         metadata = self.metadata[0]
@@ -147,7 +147,7 @@ class Compiler():
 
     def update_title(self):
         '''Update title in the source file to be compiled.'''
-        source_file = self.source_file_hw
+        source_file = self.source_file_main
         title = self.title
         f = open(source_file, 'r')
         content = f.read()
@@ -159,10 +159,10 @@ class Compiler():
         f.write(content)
         f.close()
 
-    def update_source_file_hw(self, replacement='hw_template'):
+    def update_source_file_main(self, replacement='victor_template'):
         '''Update source file name according to the option of the chosen document style'''
-        self.source_file_hw = self.source_file_hw.replace('hw', replacement)
-        self.output_file_hw = self.output_file_hw.replace('hw', replacement)
+        self.source_file_main = self.source_file_main.replace('main', replacement)
+        self.output_file_main = self.output_file_main.replace('main', replacement)
 
     def heading_style_0(self):
         '''Change heading style to not numberred heading.'''
@@ -220,7 +220,7 @@ class Compiler():
 
     def update_package(self, option):
         '''Update title in the source file to be compiled.'''
-        source_file = self.source_file_hw
+        source_file = self.source_file_main
         f = open(source_file, 'r')
         content = f.read()
         if option == 'p':
@@ -251,15 +251,15 @@ class Compiler():
         if os.path.exists(path):
             os.remove(path)
         if self.platform == 'Windows':
-            os.system('pdflatex -quiet {0}'.format(self.source_file_hw))
-            os.system('pdflatex -quiet {0}'.format(self.source_file_hw))
+            os.system('pdflatex -quiet {0}'.format(self.source_file_main))
+            os.system('pdflatex -quiet {0}'.format(self.source_file_main))
             os.system('del *.log *.aux *.idx *.out *.toc *~')
-            os.rename('{0}'.format(self.output_file_hw), path)
+            os.rename('{0}'.format(self.output_file_main), path)
         else:
-            os.system('pdflatex -interaction=batchmode {0}'.format(self.source_file_hw))
-            os.system('pdflatex -interaction=batchmode {0}'.format(self.source_file_hw))
+            os.system('pdflatex -interaction=batchmode {0}'.format(self.source_file_main))
+            os.system('pdflatex -interaction=batchmode {0}'.format(self.source_file_main))
             os.system('rm *.log *.aux *.idx *.out *.toc *~')
-            os.rename('{0}'.format(self.output_file_hw), path)
+            os.rename('{0}'.format(self.output_file_main), path)
 
     def compile_xelatex(self):
         '''Compile files by calling pandoc, pdflatex and rm commands to keep the file structure organized.'''
@@ -270,15 +270,15 @@ class Compiler():
         if os.path.exists(path):
             os.remove(path)
         if self.platform == 'Windows':
-            os.system('xelatex -quiet {0}'.format(self.source_file_hw))
-            os.system('xelatex -quiet {0}'.format(self.source_file_hw))
+            os.system('xelatex -quiet {0}'.format(self.source_file_main))
+            os.system('xelatex -quiet {0}'.format(self.source_file_main))
             os.system('del *.log *.aux *.idx *.out *.toc *~')
-            os.rename('{0}'.format(self.output_file_hw), path)
+            os.rename('{0}'.format(self.output_file_main), path)
         else:
-            os.system('xelatex -interaction=batchmode {0}'.format(self.source_file_hw))
-            os.system('xelatex -interaction=batchmode {0}'.format(self.source_file_hw))
+            os.system('xelatex -interaction=batchmode {0}'.format(self.source_file_main))
+            os.system('xelatex -interaction=batchmode {0}'.format(self.source_file_main))
             os.system('rm *.log *.aux *.idx *.out *.toc *~')
-            os.rename('{0}'.format(self.output_file_hw), path)
+            os.rename('{0}'.format(self.output_file_main), path)
 
     def generate_source_file_body(self):
         '''Generate source file body.tex from body.pdc by using pandoc'''
@@ -305,7 +305,7 @@ class Compiler():
         elif sys.argv[1] == '2':
             print('Heading Style: Template of MATH 5400.')
             self.update_date()
-            self.update_source_file_hw()
+            self.update_source_file_main()
             self.heading_style_2()
             self.update_author_2()
         else:
