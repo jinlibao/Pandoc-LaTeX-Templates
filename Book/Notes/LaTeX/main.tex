@@ -1,0 +1,171 @@
+\documentclass[twosides, usename, dvipsnames, svgnames, table]{article}
+\usepackage{
+    amsthm, amsmath, amssymb, booktabs, caption, color, enumerate, fancyhdr,
+    graphicx, grffile, geometry, hyperref, lipsum, listings, mathtools, tikz,
+    tikzscale, verbatim, xcolor,
+}
+\captionsetup{width=0.95\textwidth}
+\geometry{
+    margin = 1in
+}
+% \usepackage{fontspec}
+% \setmonofont[Scale=0.8]{Monaco}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{remark}{Remark}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem{proposition}{Proposition}[section]
+
+\lstdefinestyle{TeX}{
+    basicstyle={\ttfamily\small},
+    breaklines=false,
+    morekeywords={},
+    keywordstyle=\color{DodgerBlue},
+    morekeywords={},
+    identifierstyle=\color{Teal},
+    stringstyle=\color{LightCoral},
+    commentstyle=\color{gray},
+    showstringspaces=false,
+    numberstyle={\tiny \color{CornflowerBlue}},
+    numbersep=9pt,
+    numbers=left,
+    emph={},
+    emphstyle={\color{black} \bfseries},
+    frame=single,
+    backgroundcolor=\color{Snow},
+    tabsize=4,
+    language=[LaTeX]{TeX},
+}
+
+\lstdefinestyle{C}{
+    basicstyle={\ttfamily\small},
+    breaklines=false,
+    morekeywords={},
+    keywordstyle=\color{DodgerBlue},
+    morekeywords={},
+    identifierstyle=\color{Teal},
+    stringstyle=\color{LightCoral},
+    commentstyle=\color{gray},
+    showstringspaces=false,
+    numberstyle={\tiny \color{CornflowerBlue}},
+    numbersep=9pt,
+    numbers=left,
+    emph={},
+    emphstyle={\color{black} \bfseries},
+    frame=single,
+    backgroundcolor=\color{Snow},
+    tabsize=4,
+    language=C,
+}
+
+\lstdefinestyle{Python}{
+    basicstyle={\ttfamily\small},
+    breaklines=false,
+    backgroundcolor=\color{Snow},
+    commentstyle=\color{gray},
+    emph={},
+    emphstyle={\color{black} \bfseries},
+    frame=single,
+    identifierstyle=\color{Teal},
+    keywordstyle=\color{DodgerBlue},
+    language=Python,
+    morekeywords={as, __init__, with, self,},
+    numberstyle={\tiny \color{CornflowerBlue}},
+    numbersep=9pt,
+    numbers=left,
+    stringstyle=\color{LightCoral},
+    showstringspaces=false,
+    tabsize=4,
+}
+
+\lstset{
+    basicstyle=\ttfamily,
+    breaklines=true,
+    morekeywords={},
+    keywordstyle=\color{DodgerBlue},
+    morekeywords={},
+    identifierstyle=\color{Teal},
+    stringstyle=\color{LightCoral},
+    commentstyle=\color{gray},
+    showstringspaces=true,
+    numberstyle={\tiny \color{CornflowerBlue}},
+    numbersep=9pt,
+    numbers=left,
+    emph={},
+    emphstyle={\color{black} \bfseries},
+    frame=single,
+    backgroundcolor=\color{Snow},
+    tabsize=4,
+    language=[LaTeX]{TeX},
+}
+
+\def\Xint#1{\mathchoice
+{\XXint\displaystyle\textstyle{#1}}%
+{\XXint\textstyle\scriptstyle{#1}}%
+{\XXint\scriptstyle\scriptscriptstyle{#1}}%
+{\XXint\scriptscriptstyle\scriptscriptstyle{#1}}%
+\!\int}
+\def\XXint#1#2#3{{\setbox0=\hbox{$#1{#2#3}{\int}$ }
+\vcenter{\hbox{$#2#3$ }}\kern-.6\wd0}}
+\def\ddashint{\Xint=}
+\def\dashint{\Xint-}
+
+\providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setlength{\parindent}{0pt}
+
+\newenvironment{solution}
+{\begin{proof}[\textsc{Solution}]}
+  {\end{proof}}
+
+\author{Libao Jin (\url{ljin1@uwyo.edu})}
+\title{Book - Notes}
+\date{\today}
+
+\makeatletter
+\let\Author\@author
+\let\Title\@title
+\makeatother
+
+\hypersetup{
+    %--------------- pdfinfo ------------------
+    pdftitle  = {\Title},
+    pdfauthor = {\Author},
+    pdfsubject= {\Title},
+    pdfkeywords={},
+    %--------------- links --------------------
+    colorlinks= {true},
+    linkcolor = {red},
+    citecolor = {cyan},
+    bookmarks = {false},
+    bookmarksnumbered = {true},
+    %--------------- pagemode -----------------
+    pdffitwindow={true},
+    pdftoolbar= {false},
+    pdfmenubar= {false},
+    pdfpagelayout = {OneColumn},
+    pdfstartview = {FitH},
+    pdfpagemode = {UseNone},
+    %pdfnonfullscreenpagemode = {UseNone}
+}
+
+\fancypagestyle{mystyle}{
+    \fancyhf{}
+    \fancyhead[LO,LE]{\footnotesize \quad \Author}
+    \fancyhead[CO,CE]{\footnotesize \Title}
+    \fancyhead[RO,RE]{\footnotesize \thepage \quad}
+%   \fancyfoot[RO,LE]{\author}
+%   \fancyfoot[CO,CE]{\footnotesize\thepage}
+%   \fancyfoot[LO,RE]{\date}
+    \pagenumbering{arabic}
+}
+\pagestyle{mystyle}
+\allowdisplaybreaks
+
+\begin{document}
+\maketitle
+\input{body.tex}
+\end{document}
