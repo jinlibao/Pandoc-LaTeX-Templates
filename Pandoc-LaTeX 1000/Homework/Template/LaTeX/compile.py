@@ -173,9 +173,9 @@ class Compiler():
         p = re.compile(string)
         content = p.sub(r'\\textbf', content, count=1)
         content = p.sub(r'\n\\textbf', content)
-        string = r'}\\label{[\w\d-]+}\n'
+        string = r'}\\label{[\w\d-]+}}\n'
         p = re.compile(string)
-        content = p.sub('.}', content)
+        content = p.sub('.}}', content)
         f.close()
         f = open(source_file, 'w')
         f.write(content)
@@ -190,9 +190,9 @@ class Compiler():
         p = re.compile(string)
         content = p.sub(r'\\textbf', content, count=1)
         content = p.sub(r'\\newpage\n\\textbf', content)
-        string = r'}\\label{[\w\d-]+}\n'
+        string = r'}\\label{[\w\d-]+}}\n'
         p = re.compile(string)
-        content = p.sub('.}', content)
+        content = p.sub('.}}', content)
         f.close()
         f = open(source_file, 'w')
         f.write(content)
