@@ -1,0 +1,218 @@
+% Pattern Recognition and Machine Learning: Introduction (continued)
+% Libao Jin
+% \today
+
+## Bayesian Predictive Distribution
+\begin{align*}
+p(t | x, \mathbf{x}, \mathbf{t}) 
+     = \frac{p(t, x, \mathbf{x}, \mathbf{t})}{p(x, \mathbf{x}, \mathbf{t})}
+   & = \frac{\int p(t, x, \mathbf{x}, \mathbf{t}, \mathbf{w}) d \mathbf{w}} {p(x, \mathbf{x}, \mathbf{t})}
+\\ & = \int \frac{p(t, x, \mathbf{x}, \mathbf{t}, \mathbf{w})} {p(x, \mathbf{x}, \mathbf{t})} d \mathbf{w} 
+\\ & = \int \frac{p(t, x) p(\mathbf{x}, \mathbf{t}, \mathbf{w})} {p(x) p(\mathbf{x}, \mathbf{t})} d \mathbf{w} 
+\\ & = \int \frac{p(t, x) p(\mathbf{w}) p(\mathbf{x}, \mathbf{t}, \mathbf{w})} {p(x) p(\mathbf{w}) p(\mathbf{x}, \mathbf{t})} d \mathbf{w} 
+\\ & = \int \frac{p(t, x, \mathbf{w}) p(\mathbf{x}, \mathbf{t}, \mathbf{w})} {p(x, \mathbf{w}) p(\mathbf{x}, \mathbf{t})} d \mathbf{w} 
+\\ & = \int \frac{p(t, x, \mathbf{w})}{p(x, \mathbf{w})} \frac{p(\mathbf{x}, \mathbf{t}, \mathbf{w})}{p(\mathbf{x}, \mathbf{t})} d \mathbf{w} 
+\\ & = \int p(t|x, \mathbf{w}) p(\mathbf{w} | \mathbf{x}, \mathbf{t}) d \mathbf{w} 
+\end{align*}
+
+## Bayesian Predictive Distribution
+$$
+p(t|x, \mathbf{x}, \mathbf{t}) = \int p(t|x, \mathbf{w}) p(\mathbf{w} | \mathbf{x}, \mathbf{t}) d \mathbf{w} = \mathcal{N}(t | m(x), s^2(x)),
+$$
+\begin{align*}
+p(t|x, \mathbf{w}) 
+     = p(t|x, \mathbf{w}, \beta) 
+   & = \mathcal{N}(t|y(x, \mathbf{w}), \beta^{-1}) 
+\\ & = \frac{1}{(2 \pi \beta^{-1})^{1/2}} \exp{\left\{- \frac{1}{2 \beta^{-1}} [y(x, \mathbf{w}) - t]^2 \right\}} 
+\\ & = \frac{\beta^{1/2}}{(2 \pi )^{1/2}} \exp{\left\{- \frac{\beta}{2} [y(x, \mathbf{w}) - t]^2 \right\}}, 
+\end{align*}
+
+## Bayesian Predictive Distribution
+\begin{align*}
+p(\mathbf{w} | \mathbf{x}, \mathbf{t}) 
+   = & p(\mathbf{w} | \mathbf{x}, \mathbf{t}, \alpha, \beta) \propto p(\mathbf{t} | \mathbf{x}, \mathbf{w}, \beta) p(\mathbf{w} | \alpha) 
+\\ = & \prod_{n=1}^{N} \mathcal{N}(t_n | y(x_n, \mathbf{w}), \beta^{-1}) \cdot \mathcal{N}(\mathbf{w} | \mathbf{0}, \alpha^{-1} \mathbf{I})
+\\ = & \left[ \frac{1}{(2 \pi \beta^{-1})^{1/2}} \right]^N \exp{\left\{ \sum_{n=1}^N - \frac{1}{2 \beta^{-1}} [y(x_n, \mathbf{w}) - t_n]^2 \right\}} 
+\\ & \cdot
+   \left(\frac{1}{2 \pi \alpha^{-1}}\right)^{(M+1)/2} \exp{\left\{- \frac{1}{2 \alpha^{-1}} \mathbf{w}^T  \mathbf{w}\right\}}
+\\ = & \frac{\beta^{N/2} \alpha^{(M+1)/2}}{(2 \pi)^{(N+M+1)/2}} \exp{\left\{- \frac{\beta}{2} \sum_{n=1}^N  [y(x_n, \mathbf{w}) - t_n]^2 - \frac{\alpha}{2} \mathbf{w}^T  \mathbf{w}\right\}}
+\end{align*}
+
+## Bayesian Predictive Distribution
+
+\begin{align*}
+p & (t|x, \mathbf{w}) p(\mathbf{w} | \mathbf{x}, \mathbf{t}) 
+\\ = & \frac{\beta^{1/2}}{(2 \pi )^{1/2}} \exp{\left\{- \frac{\beta}{2} [y(x, \mathbf{w}) - t]^2 \right\}} 
+\\   & \cdot \frac{\beta^{N/2} \alpha^{(M+1)/2}}{(2 \pi)^{(N+M+1)/2}} \exp{\left\{- \frac{\beta}{2} \sum_{n=1}^N  [y(x_n, \mathbf{w}) - t_n]^2 - \frac{\alpha}{2} \mathbf{w}^T  \mathbf{w}\right\}}
+\\ = & \frac{\beta^{(N+1)/2} \alpha^{(M+1)/2}}{(2 \pi)^{(N+M+2)/2}} \\   & \exp{\left\{- \frac{\beta}{2} [y(x, \mathbf{w}) - t]^2 - \frac{\beta}{2} \sum_{n=1}^N  [y(x_n, \mathbf{w}) - t_n]^2 - \frac{\alpha}{2} \mathbf{w}^T \mathbf{w}\right\}}
+\end{align*}
+
+## Bayesian Predictive Distribution
+\begin{align*}
+& - \frac{\beta}{2} [y(x, \mathbf{w}) - t]^2 - \frac{\beta}{2} \sum_{n=1}^N  [y(x_n, \mathbf{w}) - t_n]^2 - \frac{\alpha}{2} \mathbf{w}^T \mathbf{w}
+\\ = & - \frac{\beta}{2} \left(\sum_{j=0}^M w_j x^j - t \right)^2 - \frac{\beta}{2} \sum_{n=1}^N  \left(\sum_{j=0}^M w_j x_n^j - t_n \right)^2 - \frac{\alpha}{2} \sum_{j=0}^M w_j^2 
+\\ = & - \frac{\beta}{2} \left(\mathbf{w}^T \mathbf{\phi}(x) - t \right)^2 - \frac{\beta}{2} \sum_{n=1}^N  \left(\mathbf{w}^T \mathbf{\phi}(x_n) - t_n \right)^2 - \frac{\alpha}{2} \mathbf{w}^T \mathbf{w}
+\\ = & -\frac{\beta}{2} \left\{ \mathbf{w}^T \left[\phi(x) \phi(x)^T + \sum_{n=1}^{N}\phi(x_n) \phi(x_n)^T + \frac{\alpha}{\beta} I \right] \mathbf{w} \right\}
+\\   & -\frac{\beta}{2} \left\{ - \mathbf{w}^T \left[ 2 \phi(x) t + 2 \sum_{n=1}^{N} \phi(x_n) t_n \right] + \left( t^2 + \sum_{n=1}^{N} t_n^2 \right) \right\}
+\end{align*}
+
+## Bayesian Predictive Distribution
+\begin{align*}
+p(t|x, \mathbf{x}, \mathbf{t}) 
+   & = \int p(t|x, \mathbf{w}) p(\mathbf{w} | \mathbf{x}, \mathbf{t}) d \mathbf{w} 
+\\ & = \frac{1}{[2 \pi s^2(x)]^{1/2}} \exp{\left\{ \frac{1}{2 s^2(x)} [t- m(x)]^2 \right\}}
+\\ & = \mathcal{N}(t | m(x), s^2(x))
+\end{align*}
+\begin{align*}
+m(x) = \beta \mathbf{\phi}(x)^T \mathbf{S} \sum_{n=1}^{N} \mathbf{\phi}(x_n) t_n
+\qquad &
+s^2(x) = \beta^{-1} + \mathbf{\phi}(x)^T \mathbf{S} \mathbf{\phi}(x) \\
+\mathbf{S}^{-1} = \alpha \mathbf{I} + \beta \sum_{n=1}^{N} \mathbf{\phi}(x_n) \mathbf{\phi}(x_n)^T 
+\qquad &
+\mathbf{\phi}(x_n) = (x_n^0, x_n^1, \ldots, x_n^M)^T
+\end{align*}
+
+## Bayesian Predictive Distribution
+$$p(t | x, \mathbf{x}, \mathbf{t}) = \int p(t|x, \mathbf{w}) p(\mathbf{w} | \mathbf{x}, \mathbf{t}) d \mathbf{w} = \mathcal{N}(t | m(x), s^2(x))$$
+
+## Modle Selection
+Cross-Validation
+
+## Curse of Dimensionality
+\quad
+\quad
+
+## Curse of Dimensionality
+Polynomial curve fitting, $M=3$
+$$y(\mathbf{x}, \mathbf{w}) = w_0 + \sum_{i=1}^{D} w_{ij} x_i x_j + \sum_{i=1}^{D} \sum_{j=1}^{D} \sum_{k=1}^{D} w_{ijk} x_i x_j x_k$$
+Gaussian Densities in higher dimensions
+
+## Decision Theory
+Inference step
+
+Determine either $p(t | \mathbf{x})$ or $p(\mathbf{x}, t)$.
+
+Decision step
+
+For given $\mathbf{x}$, determine optimal $\mathbf{t}$.
+
+## Minimum Misclassification Rate
+\begin{align*}
+p(\mathrm{mistake}) & = p(\mathbf{x} \in \mathcal{R}_1, \mathcal{C}_2) + p(\mathbf{x} \in \mathcal{R}_2, \mathcal{C}_1) \\
+		          & = \int_{\mathcal{R}_1} p(\mathbf{x}, \mathcal{C}_2) d \mathbf{x} + \int_{\mathcal{R}_2} p(\mathbf{x}, \mathcal{C}_1) d \mathbf{x}.
+\end{align*}
+
+## Minimum Expected Loss
+
+Example: classify medical images as 'cancer' or 'normal'
+
+
+## Minimum Expected Loss
+
+$$\mathbb{E}[L] = \sum_{k} \sum_{j} \int_{\mathcal{R}_j} L_{kj} p(\mathbf{x}, \mathcal{C}_k) d \mathbf{x}$$
+
+Regions $\mathcal{R}_j$ are chosen to minimize
+
+$$\mathbb{E}[L] = \sum_{k} L_{kj} p(\mathcal{C}_k | \mathbf{x})$$
+
+## Reject Option
+
+## Why Separate Inference and Decision?
+* Minimize risk (loss matrix may change over time)
+* Reject option
+* Unbalanced class priors
+* Combining models
+
+## Decision Theory for Regression
+* Inference step
+	Determine $p(\mathbf{x}, t).$
+* Decision step
+	For given $\mathbf{x}$, make optimal prediction, $y(\mathbf{x})$, for $t$.
+* Loss function:
+	$$\mathbb{E}[L] = \int \int L(t, y(\mathbf{x})) p(\mathbf{x}, t) d \mathbf{x} dt$$
+
+## The Squared Loss Function
+$$\mathbb{E} = \int \int \{y(\mathbf{x}) - t\}^2 p(\mathbf{x},t) d \mathbf{x} dt$$
+\begin{align*}
+\{y(\mathbf{x}) - t\}^2 
+= & \{y(\mathbf{x}) - \mathbb{E}[t | \mathbf{x}] + \mathbb{E}[t | \mathbf{x}] - t\}^2 \\
+= & \{y(\mathbf{x}) - \mathbb{E}[t | \mathbf{x}]\}^2 + 2 \{y(\mathbf{x}) - \mathbb{E}[t | \mathbf{x}]\}\{\mathbb{E}[t | \mathbf{x}] - t\} \\
+& + \{\mathbb{E}[t | \mathbf{x}] - t\}^2
+\end{align*}
+$$\mathbb{E}[L] = \int \{y(\mathbf{x} - \mathbb{E}[t | \mathbf{x}])\}^2 p(\mathbf{x}) d \mathbf{x} + \int \mathrm{var}{[t | \mathbf{x}]} p(\mathbf{x}) d \mathbf{x}$$
+$$y(\mathbf{x}) = \mathbb{E}[t | \mathbf{x}]$$
+
+## Generative vs. Discriminative
+* Generative approach
+
+	Model $p(t, \mathbf{x}) = p(\mathbf{x} | t) p(t)$
+
+	Use Bayes' theorem $p(t | \mathbf{x}) = \frac{p(\mathbf{x} | t) p(t)}{p(\mathbf{x})}$
+
+* Determinative approach
+
+	Model $p(t | \mathbf{x})$ directly
+
+## Entropy
+$$H[x] = - \sum_{x} p(x) \log_2 p(x)$$
+Important quantity in
+
+* coding theory
+* statistical physics
+* machine learning
+
+## Entropy
+Coding theory: $x$ discrete with $8$ possible states; how many bits to transmit the state of $x$?
+
+All states equally likely
+$$H[x] = -8 \times \frac{1}{8} \log_2 \frac{1}{8} = 3 \mathrm{bits}.$$
+
+## Entropy
+$$H[x] = - \frac{1}{2} \log_2 \frac{1}{2}  
+       - \frac{1}{4} \log_2 \frac{1}{4}  
+       - \frac{1}{8} \log_2 \frac{1}{8}  
+       - \frac{1}{16} \log_2 \frac{1}{16}  
+       - \frac{4}{64} \log_2 \frac{1}{64}  
+	 = 2 \mathrm{bits}$$
+\begin{align*}
+\mathrm{average code length} 
+& = \frac{1}{2} \times 1 + \frac{1}{4} \times 2 + \frac{1}{8} \times 3 + \frac{1}{16} \times 4 + 4 \times \frac{1}{64} \times 6 \\
+& = 2 \mathrm{bits}
+\end{align*}
+
+## Entropy
+In how many ways can $N$ identical objects be allocated $M$ bins?
+$$W = \frac{N!}{\prod_{i} n_i !}$$ 
+$$H = \frac{1}{N} \ln{W} \backsimeq - \lim_{N \to \infty} \sum_{i} (\frac{n_i}{N}) \ln{(\frac{n_i}{N})} = - \sum_{i} p_i \ln{p_i}$$
+Entropy maximized when $\forall i: p_i = \frac{1}{M}$
+
+## Entropy
+
+## Differential Entropy
+Put bins of width $c$ along the real line
+$$\lim_{\Delta \to 0} \left\{ - \sum_{i} p(x_i) \Delta \ln{p(x_i)} \right\} = - \int p(x) \ln{p(x)} dx$$
+Differential entropy maximized (for fixed $\sigma^2$) when
+$$p(x) = \mathcal{N}(x | \mu, \sigma^2)$$ 
+in which case
+$$H[x] = \frac{1}{2} \{1 + \ln{(2 \pi \sigma^2)}\}.$$ 
+
+## Conditional Entropy
+$$H[\mathbf{y} | \mathbf{x}] = - \int \int p(\mathbf{y}, \mathbf{x}) \ln{p(\mathbf{y} | \mathbf{x})} d \mathbf{y} d \mathbf{x}$$
+$$H[\mathbf{x}, \mathbf{y}] = H[\mathbf{y} | \mathbf{x}] + H[\mathbf{x}]$$
+
+## The Kullback-Leibler Divergence
+\begin{align*}
+\mathrm{KL}(p||q) 
+& = - \int p(\mathbf{x}) \ln{q(\mathbf{x})} d \mathbf{x} - \left(- \int p(\mathbf{x}) \ln{p(\mathbf{x})} d \mathbf{x}\right) \\
+& = - \int p(\mathbf{x}) \ln\left\{\frac{q(\mathbf{x})}{p(\mathbf{x})}\right\} d \mathbf{x}
+\end{align*}
+$$\mathrm{KL}(p||q) \backsimeq \frac{1}{N} \sum_{n=1}^{N} \{- \ln{q(\mathbf{x}_n | \mathbf{\theta})} + \ln{p(\mathbf{x}_n)}\}$$
+$$\mathrm{KL}(p||q) \geq 0 \qquad \mathrm{KL}(p||q) \neq \mathrm{KL}(q||p)$$
+
+## Mutual Information
+\begin{align*}
+I[\mathbf{x}, \mathbf{y}] 
+& = \mathrm{KL}(p(\mathbf{x}, \mathbf{y}) || p(\mathbf{x}) p(\mathbf{y})) \\
+& = - \int \int p(\mathbf{x}, \mathbf{y}) \ln{\left(\frac{p(\mathbf{x}) p(\mathbf{y})}{p(\mathbf{x}, \mathbf{y})} \right)} d \mathbf{x} d \mathbf{y}
+\end{align*}
+$$I[\mathbf{x}, \mathbf{y}] = H[\mathbf{x}] - H[\mathbf{x} | \mathbf{y}] = H[\mathbf{y}] - H[\mathbf{y} | \mathbf{x}]$$
