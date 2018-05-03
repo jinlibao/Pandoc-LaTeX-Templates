@@ -1,7 +1,7 @@
 TEX = pdflatex  # xelatex
 PANDOC = pandoc
 TFLAGS = -interaction=batchmode
-PFLAGS = -t beamer --slide-level=2 --variable="shorttitle:PRML" --variable="shortauthor:L. Jin" --template=template.tex
+PFLAGS = -t beamer --slide-level=2 --variable="institute:University of Wyoming" --variable="shortinstitute:UWyo" --variable="shorttitle:PRML" --variable="shortauthor:L. Jin" --template=template.tex
 PTFLAGS = -t beamer --slide-level=2
 ETHEME = -V colortheme:crane -V theme:metropolis -V fonttheme:professionalfonts
 MTHEME = -V colortheme:crane -V theme:Madrid -V fonttheme:professionalfonts

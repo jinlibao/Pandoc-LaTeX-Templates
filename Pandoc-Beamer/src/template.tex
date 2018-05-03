@@ -142,6 +142,13 @@ $endif$
 $if(subtitle)$
 \subtitle{$subtitle$}
 $endif$
+$if(institute)$
+$if(shortinstitute)$
+\institute[$shortinstitute$]{$institute$}
+$else$
+\institute{$institute$}
+$endif$
+$endif$
 $if(author)$
 $if(shortauthor)$
 \author[$shortauthor$]{$for(author)$$author$$sep$ \and $endfor$}
