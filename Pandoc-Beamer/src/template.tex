@@ -1,11 +1,69 @@
 \documentclass[$if(fontsize)$$fontsize$,$endif$$if(handout)$handout,$endif$$if(beamer)$ignorenonframetext,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}
 \newcommand{\tightlist}{}
+% \usepackage{eso-pic}
+% \beamertemplatenavigationsymbolsempty
+% \setbeamertemplate{footline}[frame number]
+% \newcommand\AtPagemyUpperLeft[1]{\AtPageLowerLeft{%
+% \put(\LenToUnit{0.95\paperwidth},\LenToUnit{0.065\paperheight}){#1}}}
+% \AddToShipoutPictureFG{
+%     \AtPagemyUpperLeft{{\includegraphics[width=.3cm,keepaspectratio]{./uw/steamboat.pdf}}}
+% }%
+
+% \usepackage{eso-pic}
+% \beamertemplatenavigationsymbolsempty
+% \setbeamertemplate{footline}[frame number]
+% \newcommand\AtPagemyUpperLeft[1]{\AtPageLowerLeft{%
+% \put(\LenToUnit{0.00\paperwidth},\LenToUnit{0.835\paperheight}){#1}}}
+% \AddToShipoutPictureFG{
+%   \AtPagemyUpperLeft{{\includegraphics[height=0.165\paperheight,keepaspectratio]{./uw/uwseal_nofill.pdf}}}
+% }%
+
+$if(seal)$
+\usepackage{eso-pic}
+\beamertemplatenavigationsymbolsempty
+\setbeamertemplate{footline}[frame number]
+\newcommand\AtPagemyUpperLeft[1]{\AtPageLowerLeft{%
+\put(\LenToUnit{0.00\paperwidth},\LenToUnit{0.835\paperheight}){#1}}}
+\AddToShipoutPictureFG{
+  \AtPagemyUpperLeft{{\includegraphics[height=0.165\paperheight,keepaspectratio]{./uw/uwseal_nofill.pdf}}}
+}%
+$else$
+\usepackage{eso-pic}
+\beamertemplatenavigationsymbolsempty
+\setbeamertemplate{footline}[frame number]
+\newcommand\AtPagemyUpperLeft[1]{\AtPageLowerLeft{%
+\put(\LenToUnit{0.95\paperwidth},\LenToUnit{0.065\paperheight}){#1}}}
+\AddToShipoutPictureFG{
+    \AtPagemyUpperLeft{{\includegraphics[width=.3cm,keepaspectratio]{./uw/steamboat.pdf}}}
+}%
+$endif$
+
 $if(theme)$
 \usetheme{$theme$}
 $endif$
 $if(colortheme)$
 \usecolortheme{$colortheme$}
 $endif$
+\usepackage{xcolor}
+\definecolor{UWgold}{RGB}{246, 198, 77}
+\definecolor{UWbrown}{RGB}{69, 48, 38}
+\definecolor{UWdeepgold}{RGB}{226, 178, 57}
+\definecolor{UWdeepbrown}{RGB}{49, 28, 18}
+\definecolor{UWlightgold}{RGB}{255, 207, 86}
+\definecolor{UWlightbrown}{RGB}{78, 57, 47}
+\setbeamercolor{palette primary}{bg=UWgold,fg=UWbrown}
+\setbeamercolor{palette secondary}{bg=UWdeepgold,fg=UWdeepbrown}
+\setbeamercolor{palette tertiary}{bg=UWlightgold,fg=UWlightbrown}
+\setbeamercolor{palette quaternary}{bg=UWgold,fg=UWbrown}
+\setbeamercolor{structure}{fg=UWgold} % itemize, enumerate, etc
+\setbeamercolor{section in toc}{fg=UWgold} % TOC sections
+\setbeamercolor{normal text}{fg=UWbrown,bg=white}
+\setbeamercolor{alerted text}{fg=red}
+\setbeamercolor{example text}{fg=UWbrown}
+\setbeamercolor{background canvas}{bg=white}
+\setbeamercolor{background}{parent=background canvas}
+\setbeamercolor{subsection in head/foot}{bg=UWbrown,fg=UWgold}
+
 $if(fonttheme)$
 \usefonttheme{$fonttheme$}
 $endif$
