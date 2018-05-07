@@ -3,6 +3,7 @@
 %\usecolortheme{beaver}
 \newcommand{\tightlist}{}
 
+\usepackage{tikz}
 \usepackage{xcolor}
 \definecolor{UWgold}{RGB}{246, 198, 77}
 \definecolor{UWbrown}{RGB}{69, 48, 38}
@@ -45,7 +46,10 @@
 \AddToShipoutPictureFG{
   \AtPagemyUpperLeft{{\includegraphics[width=.3cm,keepaspectratio]{./uw/steamboat.pdf}}}
 }%
-
+\setbeamertemplate{background}{
+    \tikz[overlay,remember picture]
+    \node[opacity=0.03] at (current page.center) {\includegraphics[width=5.5cm]{uw/uwseal_nofill.pdf}};
+}
 \title[Short title]{The very very long title}
 \author[L. Jin]{Libao Jin}
 \institute[UWyo]{University of Wyoming}

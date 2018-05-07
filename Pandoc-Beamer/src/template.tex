@@ -1,5 +1,12 @@
 \documentclass[$if(fontsize)$$fontsize$,$endif$$if(handout)$handout,$endif$$if(beamer)$ignorenonframetext,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{tikz}
 \newcommand{\tightlist}{}
+\newtheorem{proposition}{Proposition}
 % \usepackage{eso-pic}
 % \beamertemplatenavigationsymbolsempty
 % \setbeamertemplate{footline}[frame number]
@@ -36,6 +43,10 @@ $else$
 \AddToShipoutPictureFG{
     \AtPagemyUpperLeft{{\includegraphics[width=.3cm,keepaspectratio]{./uw/steamboat.pdf}}}
 }%
+\setbeamertemplate{background}{
+    \tikz[overlay,remember picture]
+    \node[opacity=0.03] at (current page.center) {\includegraphics[width=5.5cm]{uw/uwseal_nofill.pdf}};
+}
 $endif$
 
 $if(theme)$
