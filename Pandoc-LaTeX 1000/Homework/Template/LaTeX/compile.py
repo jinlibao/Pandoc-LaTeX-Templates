@@ -9,10 +9,10 @@ import platform
 
 __author__ = 'Libao Jin'
 __create_date__ = '01/13/2017'
-__last_update_date__ = '02/07/2018'
+__last_update_date__ = '11/05/2018'
 __copyright__ = "Copyright (c) 2018 Libao Jin"
 __license__ = "MIT"
-__version__ = "1.6.0"
+__version__ = "1.7.0"
 __maintainer__ = "Libao Jin"
 __email__ = "jinlibao@outlook.com"
 __status__ = "Complete"
@@ -73,7 +73,17 @@ class Compiler():
         print(metadata[2])
         print(doc_type)
         doc_number = metadata[3]
-        if course_number == '5200':
+        if course_number == '5290':
+            course_name = 'Stochastic Processes \& Applications'
+        elif course_number == '5450':
+            course_name = 'Computer Graphics'
+        elif course_number == '5010':
+            course_name = 'Blockchain Design and Programming'
+        elif course_number == '5110':
+            course_name = 'Analysis of Algorithms'
+        elif course_number == '5590':
+            course_name = 'Topic: Cyclotomic Fields \& Applications'
+        elif course_number == '5200':
             course_name = 'Real Variables'
         elif course_number == '5255':
             course_name = 'Math Theory of Probability'

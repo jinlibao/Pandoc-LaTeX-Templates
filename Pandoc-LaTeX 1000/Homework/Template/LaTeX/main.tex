@@ -1,8 +1,8 @@
-\documentclass[twosides, usename, dvipsnames, svgnames, table]{article}
+\documentclass[twoside, usename, dvipsnames, svgnames, table]{article}
 \usepackage{
     amsthm, amsmath, amssymb, booktabs, caption, color, enumerate, fancyhdr,
     graphicx, grffile, geometry, hyperref, lipsum, listings, mathtools, tikz,
-    tikzscale, verbatim, xcolor,
+    tikzscale, verbatim, xcolor, subcaption, algorithm2e, lastpage
 }
 \captionsetup{width=0.95\textwidth}
 \geometry{
@@ -10,7 +10,17 @@
 }
 % \usepackage{fontspec}
 % \setmonofont[Scale=0.8]{Monaco}
+% \usepackage{xeCJK}
+% \setCJKmainfont[BoldFont=Heiti SC Medium]{Heiti SC Light}
+% \setCJKsansfont{Heiti SC}
+% \setCJKmonofont{Heiti SC}
 
+% Table alignment
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+
+% Enviroments for definition, lemma, corollary, remark, theorem, example, proposition
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
 \newtheorem{lemma}{Lemma}[section]
@@ -20,87 +30,247 @@
 \newtheorem{example}{Example}[section]
 \newtheorem{proposition}{Proposition}[section]
 
-\lstdefinestyle{TeX}{
-    basicstyle={\ttfamily\small},
-    breaklines=false,
+% Basic setup for lstlisting environment
+\lstset{
+    basicstyle={\ttfamily\footnotesize},
+    breaklines=true,
+    keywordstyle=\color{Red},
+    otherkeywords={},
     morekeywords={},
-    keywordstyle=\color{DodgerBlue},
-    morekeywords={},
-    identifierstyle=\color{Teal},
+    identifierstyle=\color{darkgray},
     stringstyle=\color{LightCoral},
     commentstyle=\color{gray},
     showstringspaces=false,
-    numberstyle={\tiny \color{CornflowerBlue}},
+    numberstyle={\footnotesize \color{Black}},
     numbersep=9pt,
     numbers=left,
-    emph={},
-    emphstyle={\color{black} \bfseries},
+    emph={int,char,double,float,unsigned,auto},
+    emphstyle={\color{Cerulean}},
     frame=single,
-    backgroundcolor=\color{Snow},
+    backgroundcolor=\color{White},
+    tabsize=4,
+    language={},
+}
+
+% Define language diff (using git diff highlighting)
+\newcommand{\lstbg}[3][0pt]{{\fboxsep#1\colorbox{#2}{\strut #3}}}
+\lstdefinelanguage{diff}{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  morecomment=[f][\lstbg{red!20}]-,
+  morecomment=[f][\lstbg{green!20}]+,
+  morecomment=[f][\color{blue}]{@@},
+}
+
+% Define language Golang
+\lstdefinelanguage{Golang}%
+  {morekeywords=[1]{package,import,func,type,struct,return,defer,panic,%
+     recover,select,var,const,iota,},%
+   morekeywords=[2]{string,uint,uint8,uint16,uint32,uint64,int,int8,int16,%
+     int32,int64,bool,float32,float64,complex64,complex128,byte,rune,uintptr,%
+     error,interface},%
+   morekeywords=[3]{map,slice,make,new,nil,len,cap,copy,close,true,false,%
+     delete,append,real,imag,complex,chan,},%
+   morekeywords=[4]{for,break,continue,range,goto,switch,case,fallthrough,if,%
+     else,default,},%
+   morekeywords=[5]{Println,Printf,Error,Print,},%
+   sensitive=true,%
+   morecomment=[l]{//},%
+   morecomment=[s]{/*}{*/},%
+   morestring=[b]',%
+   morestring=[b]",%
+   morestring=[s]{`}{`},%
+}
+
+% Define various styles for different lanuages
+\lstdefinestyle{Makefile}{
+    basicstyle=\ttfamily,
+    breaklines=true,
+    keywordstyle=\color{Red},
+    otherkeywords={},
+    morekeywords={},
+    identifierstyle=\color{darkgray},
+    stringstyle=\color{darkgray},
+    commentstyle=\color{gray},
+    showstringspaces=false,
+    numberstyle={\footnotesize \color{Black}},
+    numbersep=9pt,
+    numbers=left,
+    emph={int,char,double,float,unsigned,auto},
+    emphstyle={\color{Cerulean}},
+    frame=single,
+    backgroundcolor=\color{White},
+    tabsize=4,
+    language=make,
+}
+
+\lstdefinestyle{MATLAB}{
+    basicstyle={\ttfamily\small},
+    breaklines=true,
+    keywordstyle=\color{Red},
+    otherkeywords={},
+    morekeywords={},
+    identifierstyle=\color{darkgray},
+    stringstyle=\color{LightCoral},
+    commentstyle=\color{gray},
+    showstringspaces=false,
+    numberstyle={\footnotesize \color{Black}},
+    numbersep=9pt,
+    numbers=left,
+    emph={int,char,double,float,unsigned,auto},
+    emphstyle={\color{Cerulean}},
+    frame=single,
+    backgroundcolor=\color{White},
+    tabsize=4,
+     language=MATLAB,
+}
+
+\lstdefinestyle{C++}{
+    basicstyle=\ttfamily,
+    breaklines=true,
+    keywordstyle=\color{Red},
+    otherkeywords={},
+    morekeywords={>,<,.,;,-,!,=,~},
+    identifierstyle=\color{darkgray},
+    stringstyle=\color{LightCoral},
+    commentstyle=\color{gray},
+    showstringspaces=false,
+    numberstyle={\footnotesize \color{Black}},
+    numbersep=9pt,
+    numbers=left,
+    emph={int,char,double,float,unsigned,auto},
+    emphstyle={\color{Cerulean}},
+    frame=single,
+    backgroundcolor=\color{White},
+    tabsize=4,
+    language=C++,
+}
+
+\lstdefinestyle{Plain}{
+    basicstyle={\ttfamily\footnotesize},
+    breaklines=true,
+    keywordstyle=\color{Red},
+    otherkeywords={},
+    morekeywords={},
+    identifierstyle=\color{darkgray},
+    stringstyle=\color{LightCoral},
+    commentstyle=\color{gray},
+    showstringspaces=false,
+    numberstyle={\footnotesize \color{Black}},
+    numbersep=9pt,
+    numbers=left,
+    emph={int,char,double,float,unsigned,auto},
+    emphstyle={\color{Cerulean}},
+    frame=single,
+    backgroundcolor=\color{White},
+    tabsize=4,
+    language={},
+}
+
+\lstdefinestyle{TeX}{
+    basicstyle={\ttfamily\footnotesize},
+    breaklines=true,
+    keywordstyle=\color{Red},
+    otherkeywords={},
+    morekeywords={},
+    identifierstyle=\color{darkgray},
+    stringstyle=\color{LightCoral},
+    commentstyle=\color{gray},
+    showstringspaces=false,
+    numberstyle={\footnotesize \color{Black}},
+    numbersep=9pt,
+    numbers=left,
+    emph={int,char,double,float,unsigned,auto},
+    emphstyle={\color{Cerulean}},
+    frame=single,
+    backgroundcolor=\color{White},
     tabsize=4,
     language=[LaTeX]{TeX},
 }
 
 \lstdefinestyle{C}{
-    basicstyle={\ttfamily\small},
-    breaklines=false,
+    basicstyle={\ttfamily\footnotesize},
+    breaklines=true,
+    keywordstyle=\color{Red},
+    otherkeywords={},
     morekeywords={},
-    keywordstyle=\color{DodgerBlue},
-    morekeywords={},
-    identifierstyle=\color{Teal},
+    identifierstyle=\color{darkgray},
     stringstyle=\color{LightCoral},
     commentstyle=\color{gray},
     showstringspaces=false,
-    numberstyle={\tiny \color{CornflowerBlue}},
+    numberstyle={\footnotesize \color{Black}},
     numbersep=9pt,
     numbers=left,
-    emph={},
-    emphstyle={\color{black} \bfseries},
+    emph={int,char,double,float,unsigned,auto},
+    emphstyle={\color{Cerulean}},
     frame=single,
-    backgroundcolor=\color{Snow},
+    backgroundcolor=\color{White},
     tabsize=4,
     language=C,
 }
 
 \lstdefinestyle{Python}{
-    basicstyle={\ttfamily\small},
-    breaklines=false,
-    backgroundcolor=\color{Snow},
+    basicstyle={\ttfamily\footnotesize},
+    breaklines=true,
+    keywordstyle=\color{Red},
+    otherkeywords={},
+    morekeywords={},
+    identifierstyle=\color{darkgray},
+    stringstyle=\color{LightCoral},
     commentstyle=\color{gray},
-    emph={},
-    emphstyle={\color{black} \bfseries},
-    frame=single,
-    identifierstyle=\color{Teal},
-    keywordstyle=\color{DodgerBlue},
-    language=Python,
-    morekeywords={as, __init__, with, self,},
-    numberstyle={\tiny \color{CornflowerBlue}},
+    showstringspaces=false,
+    numberstyle={\footnotesize \color{Black}},
     numbersep=9pt,
     numbers=left,
-    stringstyle=\color{LightCoral},
-    showstringspaces=false,
+    emph={int,char,double,float,unsigned,auto},
+    emphstyle={\color{Cerulean}},
+    frame=single,
+    backgroundcolor=\color{White},
     tabsize=4,
+    language=Python,
 }
 
-\lstset{
-    basicstyle=\ttfamily,
+
+\lstdefinestyle{Golang}{
+    basicstyle={\ttfamily\footnotesize},
     breaklines=true,
+    keywordstyle=\color{Red},
+    otherkeywords={},
     morekeywords={},
-    keywordstyle=\color{DodgerBlue},
-    morekeywords={},
-    identifierstyle=\color{Teal},
+    identifierstyle=\color{darkgray},
     stringstyle=\color{LightCoral},
     commentstyle=\color{gray},
-    showstringspaces=true,
-    numberstyle={\tiny \color{CornflowerBlue}},
+    showstringspaces=false,
+    numberstyle={\footnotesize \color{Black}},
+    numbersep=9pt,
+    numbers=left,
+    emph={int,char,double,float,unsigned,auto},
+    emphstyle={\color{Cerulean}},
+    frame=single,
+    backgroundcolor=\color{White},
+    tabsize=4,
+    language=Golang,
+}
+
+\lstdefinestyle{diff}{
+    basicstyle={\ttfamily},
+    breaklines=true,
+    keywordstyle=\color{black},
+    otherkeywords={},
+    morekeywords={},
+    identifierstyle=\color{black},
+    stringstyle=\color{black},
+    commentstyle=\color{gray},
+    showstringspaces=false,
+    numberstyle={\footnotesize \color{Black}},
     numbersep=9pt,
     numbers=left,
     emph={},
-    emphstyle={\color{black} \bfseries},
+    emphstyle={\color{black}},
     frame=single,
-    backgroundcolor=\color{Snow},
+    backgroundcolor=\color{White},
     tabsize=4,
-    language=[LaTeX]{TeX},
+    language=diff,
 }
 
 \def\Xint#1{\mathchoice
@@ -155,9 +325,9 @@
 
 \fancypagestyle{mystyle}{
     \fancyhf{}
-    \fancyhead[LO,LE]{\footnotesize \quad \Author}
+    \fancyhead[LO,RE]{\footnotesize \Author}
     \fancyhead[CO,CE]{\footnotesize \Title}
-    \fancyhead[RO,RE]{\footnotesize \thepage \quad}
+    \fancyhead[RO,LE]{\footnotesize \thepage/\pageref{LastPage}}
 %   \fancyfoot[RO,LE]{\author}
 %   \fancyfoot[CO,CE]{\footnotesize\thepage}
 %   \fancyfoot[LO,RE]{\date}
