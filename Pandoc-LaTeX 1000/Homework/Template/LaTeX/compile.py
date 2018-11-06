@@ -12,7 +12,7 @@ __create_date__ = '01/13/2017'
 __last_update_date__ = '11/05/2018'
 __copyright__ = "Copyright (c) 2018 Libao Jin"
 __license__ = "MIT"
-__version__ = "1.7.0"
+__version__ = "1.8.0"
 __maintainer__ = "Libao Jin"
 __email__ = "jinlibao@outlook.com"
 __status__ = "Complete"
@@ -290,6 +290,52 @@ class Compiler():
             os.system('rm *.log *.aux *.idx *.out *.toc *~')
             os.rename('{0}'.format(self.output_file_main), path)
 
+    def compile_xelatex_bib(self):
+        '''Compile files by calling pandoc, pdflatex and rm commands to keep the file structure organized.'''
+        if self.platform == 'Windows':
+            path = '..\\' + self.filename
+        else:
+            path = '../' + self.filename
+        if os.path.exists(path):
+            os.remove(path)
+        if self.platform == 'Windows':
+            os.system('xelatex -quiet {0}'.format(self.source_file_main))
+            os.system('bibtex -quiet {0}'.format(self.source_file_main.split('.')[0]))
+            os.system('xelatex -quiet {0}'.format(self.source_file_main))
+            os.system('xelatex -quiet {0}'.format(self.source_file_main))
+            os.system('del *.bbl *.blg *.log *.aux *.idx *.out *.toc *~')
+            os.rename('{0}'.format(self.output_file_main), path)
+        else:
+            os.system('xelatex -interaction=batchmode {0}'.format(self.source_file_main))
+            os.system('bibtex {0}'.format(self.source_file_main.split('.')[0]))
+            os.system('xelatex -interaction=batchmode {0}'.format(self.source_file_main))
+            os.system('xelatex -interaction=batchmode {0}'.format(self.source_file_main))
+            os.system('rm *.bbl *.blg *.log *.aux *.idx *.out *.toc *~')
+            os.rename('{0}'.format(self.output_file_main), path)
+
+    def compile_pdflatex_bib(self):
+        '''Compile files by calling pandoc, pdflatex and rm commands to keep the file structure organized.'''
+        if self.platform == 'Windows':
+            path = '..\\' + self.filename
+        else:
+            path = '../' + self.filename
+        if os.path.exists(path):
+            os.remove(path)
+        if self.platform == 'Windows':
+            os.system('pdflatex -quiet {0}'.format(self.source_file_main))
+            os.system('bibtex -quiet {0}'.format(self.source_file_main.split('.')[0]))
+            os.system('pdflatex -quiet {0}'.format(self.source_file_main))
+            os.system('pdflatex -quiet {0}'.format(self.source_file_main))
+            os.system('del *.bbl *.blg *.log *.aux *.idx *.out *.toc *~')
+            os.rename('{0}'.format(self.output_file_main), path)
+        else:
+            os.system('pdflatex -interaction=batchmode {0}'.format(self.source_file_main))
+            os.system('bibtex {0}'.format(self.source_file_main.split('.')[0]))
+            os.system('pdflatex -interaction=batchmode {0}'.format(self.source_file_main))
+            os.system('pdflatex -interaction=batchmode {0}'.format(self.source_file_main))
+            os.system('rm *.bbl *.blg *.log *.aux *.idx *.out *.toc *~')
+            os.rename('{0}'.format(self.output_file_main), path)
+
     def generate_source_file_body(self):
         '''Generate source file body.tex from body.pdc by using pandoc'''
         os.system('pandoc -f markdown -o body.tex body.pdc')
@@ -333,6 +379,14 @@ class Compiler():
             self.update_package('x')
             self.compile_xelatex()
             self.update_package('p')
+        elif sys.argv[2] == 'xb':
+            self.update_package('x')
+            self.compile_xelatex_bib()
+            self.update_package('p')
+        elif sys.argv[2] == 'pb':
+            self.compile_pdflatex_bib()
+            self.update_package('p')
+
 
 
 if __name__ == '__main__':
