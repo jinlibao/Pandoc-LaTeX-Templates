@@ -9,10 +9,10 @@ import platform
 
 __author__ = 'Libao Jin'
 __create_date__ = '01/13/2017'
-__last_update_date__ = '11/05/2018'
-__copyright__ = "Copyright (c) 2018 Libao Jin"
+__last_update_date__ = '02/01/2019'
+__copyright__ = "Copyright (c) 2019 Libao Jin"
 __license__ = "MIT"
-__version__ = "1.8.0"
+__version__ = "1.9.0"
 __maintainer__ = "Libao Jin"
 __email__ = "jinlibao@outlook.com"
 __status__ = "Complete"
@@ -30,7 +30,7 @@ class Compiler():
     last_name = 'Libao'
     first_name = 'Jin'
     email = 'ljin1@uwyo.edu'
-    author = r'{0} {1} (\\url{{{2}}})'.format(last_name, first_name, email)
+    author = r'{0} {1}'.format(last_name, first_name)
     date = '01/01/2017'
     platform = ''
 
@@ -74,6 +74,18 @@ class Compiler():
         print(doc_type)
         doc_number = metadata[3]
         if course_number == '5290':
+            course_name = 'Stochastic Processes \& Applications'
+        elif course_number == '5200':
+            course_name = 'Computational Complexity'
+        elif course_number == '5555':
+            course_name = 'Machine Learning'
+        elif course_number == '5590':
+            course_name = 'Convex Geometry'
+        elif course_number == '5605':
+            course_name = 'Algebraic Topology'
+        elif course_number == '5490':
+            course_name = 'Mathematics of Flow in Porous Media'
+        elif course_number == '5290':
             course_name = 'Stochastic Processes \& Applications'
         elif course_number == '5450':
             course_name = 'Computer Graphics'
@@ -129,7 +141,7 @@ class Compiler():
         author = self.author
         f = open(source_file, 'r')
         content = f.read()
-        string = r'\\author{[\w\d\s]*}'
+        string = r'\\author{[{}()@\\\.\w\d\s]*}'
         p = re.compile(string)
         content = p.sub(r'\\author{{{0}}}'.format(author), content)
         f.close()
@@ -161,7 +173,7 @@ class Compiler():
         title = self.title
         f = open(source_file, 'r')
         content = f.read()
-        string = r'\\title{[\w\d\s.-]*}'
+        string = r'\\title{[\\:&\w\d\s.-]*}'
         p = re.compile(string)
         content = p.sub(r'\\title{{{0}}}'.format(title), content)
         f.close()
