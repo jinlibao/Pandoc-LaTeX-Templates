@@ -1,7 +1,6 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# import time
 import sys
 import os
 import re
@@ -9,10 +8,10 @@ import platform
 
 __author__ = 'Libao Jin'
 __create_date__ = '01/13/2017'
-__last_update_date__ = '08/31/2019'
+__last_update_date__ = '09/01/2019'
 __copyright__ = "Copyright (c) 2019 Libao Jin"
 __license__ = "MIT"
-__version__ = "2.0.0"
+__version__ = "2.0.1"
 __maintainer__ = "Libao Jin"
 __email__ = "jinlibao@outlook.com"
 __status__ = "Complete"
@@ -44,17 +43,18 @@ class Compiler():
         folder = self.folder
         pathname = os.path.realpath(folder)
         print(pathname)
-        strings = []
         if self.platform == 'Windows':
-            strings.append(r'([\w-]+)-(\d{2,5})\\([\w\d\s.-]+)\\([\w\d]+)\\')
-            strings.append(r'([\w-]+)-(\d{2,5})\\([\w\d\s.-]+)\\')
-            strings.append(r'([\w-]+)-(\d{2,5})\\')
-            strings.append(r'([\w-]+)\\LaTeX')
+            strings = [
+                '([^\d\W/]+?[^\d/-]*){1,1}-?(\d+)\\([\w\d\s.-]+)\\([\w\d]+)\\LaTeX',
+                '([^\d\W/]+?[^\d/-]*){1,1}-?(\d+)\\([\w\d\s.-]+)\\LaTeX',
+                '([^\d\W/]+?[^\d/-]*){1,1}-?(\d+)\\LaTeX', '([\w-]+)\\LaTeX'
+            ]
         else:
-            strings.append('([\w-]+)-(\d{2,5})/([\w\d\s.-]+)/([\w\d]+)/')
-            strings.append('([\w-]+)-(\d{2,5})/([\w\d\s.-]+)/')
-            strings.append('([\w-]+)-(\d{2,5})/')
-            strings.append('([\w-]+)/LaTeX')
+            strings = [
+                '([^\d\W/]+?[^\d/-]*){1,1}-?(\d*)/([\w\d\s.-]+)/([\w\d]+)/LaTeX',
+                '([^\d\W/]+?[^\d/-]*){1,1}-?(\d*)/([\w\d\s.-]+)/LaTeX',
+                '([^\d\W/]+?[^\d/-]*){1,1}-?(\d*)/LaTeX', '([\w-]+)/LaTeX'
+            ]
         for string in strings:
             pattern = re.compile(string)
             metadata = re.findall(pattern, pathname)
@@ -68,7 +68,10 @@ class Compiler():
         metadata = self.metadata[0]
         print(metadata)
         subject = metadata[0]
-        if len(metadata) == 1:
+        subject = subject.replace('_', '.')
+        subject = subject.replace(' ', '.')
+        subject = subject.replace('-', '.')
+        if len(metadata) == 1 or (len(metadata) == 2 and len(metadata[1] == 0)):
             self.filename = [
                 '{0}.pdf'.format(subject),
                 '{0}.{1}.{2}.pdf'.format(subject, self.last_name,
@@ -113,6 +116,8 @@ class Compiler():
                                                      self.last_name,
                                                      self.first_name)
             ]
+        for filename in self.filename:
+            filename = filename.replace('..', '.')
 
     def update_author(self):
         '''Update author information in the source file to be compiled.'''
@@ -137,11 +142,14 @@ class Compiler():
                 continue
             title = self.title
             print(title)
-            title = title.replace('LaTeX', r'\LaTeX{}')
+            title = title.replace('LaTeX', r'\\LaTeX{}')
+            title = title.replace('.', r' ')
+            title = title.replace('_', r' ')
+            title = title.replace('  ', r' ')
             print(title)
             f = open(source_file, 'r')
             content = f.read()
-            string = r'\\title{[{{}}\\:&\w\d .-]*}\n'
+            string = r'\\title{[{{}}/\\:&\w\d .-]*}\n'
             p = re.compile(string)
             content = p.sub(r'\\title{{{0}}}\n'.format(title), content)
             f.close()
@@ -197,6 +205,9 @@ class Compiler():
         '''Generate title for the article/document.'''
         metadata = self.metadata[0]
         subject = metadata[0]
+        if len(metadata) == 1:
+            self.title = '{0}'.format(subject)
+            return
         course_number = metadata[1]
         if course_number == '5290':
             course_name = 'Stochastic Processes \& Applications'
