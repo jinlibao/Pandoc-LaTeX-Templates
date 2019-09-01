@@ -1,0 +1,407 @@
+%
+% main.tex
+%
+% Copyright © 2019 Libao Jin <jinlibao@outlook.com>
+% Distributed under terms of the MIT license.
+%
+
+\documentclass[11pt,oneside,letter,twoside,usename,dvipsnames,svgnames,table]{article}
+
+% Load packages
+\usepackage{
+  afterpage,amsfonts,amsmath,amssymb,amsthm,appendix,array,booktabs,breqn,
+  caption,color,enumerate,enumitem,fancyhdr,float,fontspec,geometry,graphicx,grffile,
+  hyperref,hyphenat,ifthen,imakeidx,indentfirst,lastpage,lipsum,listings,
+  longtable,makeidx,mathtools,multicol,subcaption,tikz,tikzscale,titlesec,
+  titling,verbatim,xcolor,xltxtra,xunicode
+}
+
+\title{\LaTeX{} 101 - \LaTeX{} Template Homework 0}
+\author{Libao Jin}
+
+\makeatletter
+\let\Author\@author
+\let\Title\@title
+\makeatother
+% ------------------- define \Xint ----------------
+\def\Xint#1{\mathchoice
+  {\XXint\displaystyle\textstyle{#1}}%
+  {\XXint\textstyle\scriptstyle{#1}}%
+  {\XXint\scriptstyle\scriptscriptstyle{#1}}%
+  {\XXint\scriptscriptstyle\scriptscriptstyle{#1}}%
+\!\int}
+\def\XXint#1#2#3{{\setbox0=\hbox{$#1{#2#3}{\int}$ }
+\vcenter{\hbox{$#2#3$ }}\kern-.6\wd0}}
+\def\ddashint{\Xint=}
+\def\dashint{\Xint-}
+% ------------------- setlength -------------------
+\setlength{\parindent}{0pt}
+% ------------------- algorithm2e -----------------
+\usepackage[ruled]{algorithm2e}
+% ------------------- amsthms ---------------------
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{remark}{Remark}[section]
+\newtheorem{claim}{Claim}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem{exercise}{Exercise}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{proc}{Procedure}[section]
+\numberwithin{equation}{section}
+% ------------------- define macros ---------------
+\newcommand{\tightlist}{}
+\newcommand{\semester}{\ifthenelse{\month<9}{\ifthenelse{\month<5}{Spring}{Summer}}{Fall} \the\year}
+\newcommand{\AxisRotator}[1][rotate=0]{%
+  \tikz [x=0.25cm,y=0.60cm,line width=.2ex,-stealth,#1] \draw (0,0) arc (-150:150:1 and 1);%
+}
+% \newcommand{\problem}{0}
+% \newcommand{\sol}{0}
+% \newcommand{\homework}{0}
+\ifdefined\homework
+  \ifdefined\problem
+    \newenvironment{solution}{\comment}{\endcomment}
+  \else
+    \newenvironment{solution}{\begin{proof}[{\rm\bf Solution}]}{\end{proof}}
+    \newcommand{\sectionbreak}{\clearpage}
+  \fi
+% ------------------- titlesec --------------------
+  \titleformat{\section}[runin]{\bf}{}{0em}{}[.]
+\else
+  \newenvironment{solution}{\begin{proof}[{\rm\bf Solution}]}{\end{proof}}
+\fi
+%\titleformat{\section}{\scshape\Large}{\thesection}{1em}{}
+%\titleformat{\subsection}{\scshape\large}{\thesubsection}{1em}{}
+%\titleformat{\subsubsection}{\large}{\thesubsubsection}{1em}{}
+%\renewcommand{\thesection}{\Roman{section}}
+% ------------------- caption ---------------------
+\captionsetup{width=0.95\textwidth}
+% ------------------- enumitem --------------------
+\setlist{noitemsep}
+\setenumerate{label=(\alph*)}
+% ------------------- fontspec --------------------
+% \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase,Numbers=OldStyle}
+% \setromanfont{Palatino}
+% \setsansfont{Helvetica}
+\setmonofont[Scale=MatchLowercase]{Monaco}
+% ------------------- geometry --------------------
+\geometry{
+  margin = 1in
+}
+% ------------------- hyperref --------------------
+\hypersetup{
+  %--------------- pdfinfo ------------------
+  pdftitle  = {\Title},
+  pdfauthor = {\Author},
+  pdfsubject= {\Title},
+  pdfkeywords={},
+  %--------------- links --------------------
+  colorlinks= {true},
+  linkcolor = {red},
+  citecolor = {cyan},
+  bookmarks = {false},
+  bookmarksnumbered = {true},
+  %--------------- pagemode -----------------
+  pdffitwindow={true},
+  pdftoolbar= {false},
+  pdfmenubar= {false},
+  pdfpagelayout = {OneColumn},
+  pdfstartview = {FitH},
+  pdfpagemode = {UseNone},
+  %pdfnonfullscreenpagemode = {UseNone}
+}
+%------------------- fancyhdr ---------------------
+\fancypagestyle{exercise-style}{
+  \fancyhf{}
+  \fancyhead[LO,RE]{\footnotesize \semester}
+  \fancyhead[CO,CE]{\footnotesize \Title}
+  \fancyhead[LE,RO]{\footnotesize\thepage\ of \pageref*{LastPage}}
+  \pagenumbering{arabic}
+}
+\fancypagestyle{report-style}{
+  \fancyhf{}
+  \fancyhead[LO,RE]{\footnotesize \Author}
+  \fancyhead[CO,CE]{\footnotesize \Title}
+  \fancyhead[LE,RO]{\footnotesize\thepage\ of \pageref*{LastPage}}
+  \pagenumbering{arabic}
+}
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+\renewcommand{\subsectionmark}[1]{\markright{\thesubsection \ #1}}
+\pagestyle{report-style}
+% ------------------- maketitle -------------------
+\makeatletter
+\def\@maketitle{%
+  \begin{center}%
+    \let \footnote \thanks
+    %{\bfseries\huge \course\ --- \semester \par \vskip .5em {\LARGE \@title}}
+    {\LARGE \@title \par}
+    {\vskip 1.0em \large \@author}
+    {\vskip .5em \large \@date}
+  \end{center}
+}
+% \par \vskip .5em}
+\makeatother
+% ------------------- table alignment -------------
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+% \allowdisplaybreaks
+% ------------------ lstlisting ------------------
+\lstset{
+  basicstyle={\ttfamily\footnotesize},
+  breaklines=true,
+  keywordstyle=\color{Red},
+  otherkeywords={},
+  morekeywords={},
+  identifierstyle=\color{darkgray},
+  stringstyle=\color{LightCoral},
+  commentstyle=\color{gray},
+  showstringspaces=false,
+  numberstyle={\footnotesize \color{Black}},
+  numbersep=9pt,
+  numbers=left,
+  emph={int,char,double,float,unsigned,auto},
+  emphstyle={\color{Cerulean}},
+  frame=single,
+  backgroundcolor=\color{White},
+  tabsize=4,
+  language={},
+}
+
+% Define language diff (using git diff highlighting)
+\newcommand{\lstbg}[3][0pt]{{\fboxsep#1\colorbox{#2}{\strut #3}}}
+\lstdefinelanguage{diff}{
+  basicstyle={\ttfamily\small},
+  breaklines=true,
+  morecomment=[f][\lstbg{red!20}]-,
+  morecomment=[f][\lstbg{green!20}]+,
+  morecomment=[f][\color{blue}]{@@},
+}
+
+% Define language Golang
+\lstdefinelanguage{Golang}%
+{morekeywords=[1]{package,import,func,type,struct,return,defer,panic,%
+  recover,select,var,const,iota,},%
+  morekeywords=[2]{string,uint,uint8,uint16,uint32,uint64,int,int8,int16,%
+    int32,int64,bool,float32,float64,complex64,complex128,byte,rune,uintptr,%
+  error,interface},%
+  morekeywords=[3]{map,slice,make,new,nil,len,cap,copy,close,true,false,%
+  delete,append,real,imag,complex,chan,},%
+  morekeywords=[4]{for,break,continue,range,goto,switch,case,fallthrough,if,%
+  else,default,},%
+  morekeywords=[5]{Println,Printf,Error,Print,},%
+  sensitive=true,%
+  morecomment=[l]{//},%
+  morecomment=[s]{/*}{*/},%
+  morestring=[b]',%
+  morestring=[b]",%
+  morestring=[s]{`}{`},%
+}
+
+% Define various styles for different lanuages
+\lstdefinestyle{Makefile}{
+  basicstyle=\ttfamily,
+  breaklines=true,
+  keywordstyle=\color{Red},
+  otherkeywords={},
+  morekeywords={},
+  identifierstyle=\color{darkgray},
+  stringstyle=\color{darkgray},
+  commentstyle=\color{gray},
+  showstringspaces=false,
+  numberstyle={\footnotesize \color{Black}},
+  numbersep=9pt,
+  numbers=left,
+  emph={int,char,double,float,unsigned,auto},
+  emphstyle={\color{Cerulean}},
+  frame=single,
+  backgroundcolor=\color{White},
+  tabsize=4,
+  language=make,
+}
+
+\lstdefinestyle{MATLAB}{
+  basicstyle={\ttfamily\small},
+  breaklines=true,
+  keywordstyle=\color{Red},
+  otherkeywords={},
+  alsoletter={...},
+  morekeywords={break,case,catch,continue,elseif,else,end,for,function,global,
+    if,otherwise,persistent,return,switch,try,while,methods,properties,
+  events,classdef,...},
+  comment=[l]\%,                              % comments
+  morecomment=[l]...,                         % comments
+  morecomment=[s]{\%\{}{\%\}},                % block comments
+  morestring=[m]
+  identifierstyle=\color{darkgray},
+  stringstyle=\color{LightCoral},
+  commentstyle=\color{gray},
+  showstringspaces=false,
+  numberstyle={\footnotesize \color{Black}},
+  numbersep=9pt,
+  numbers=left,
+  emph={int,char,double,float,unsigned,auto},
+  emphstyle={\color{Cerulean}},
+  frame=single,
+  backgroundcolor=\color{White},
+  tabsize=4,
+  language=MATLAB,
+}
+
+\lstdefinestyle{C++}{
+  basicstyle=\ttfamily,
+  breaklines=true,
+  keywordstyle=\color{Red},
+  otherkeywords={memset},
+  morekeywords={>,<,.,;,-,!,=,~},
+  identifierstyle=\color{darkgray},
+  stringstyle=\color{LightCoral},
+  commentstyle=\color{gray},
+  showstringspaces=false,
+  numberstyle={\footnotesize \color{Black}},
+  numbersep=9pt,
+  numbers=left,
+  emph={bool,int,char,double,float,unsigned,auto,string,pair,unordered_set,vector},
+  emphstyle={\color{Cerulean}},
+  frame=single,
+  backgroundcolor=\color{White},
+  tabsize=4,
+  language=C++,
+}
+
+\lstdefinestyle{Plain}{
+  basicstyle={\ttfamily\footnotesize},
+  breaklines=true,
+  keywordstyle=\color{Red},
+  otherkeywords={},
+  morekeywords={},
+  identifierstyle=\color{darkgray},
+  stringstyle=\color{LightCoral},
+  commentstyle=\color{gray},
+  showstringspaces=false,
+  numberstyle={\footnotesize \color{Black}},
+  numbersep=9pt,
+  numbers=left,
+  emph={int,char,double,float,unsigned,auto},
+  emphstyle={\color{Cerulean}},
+  frame=single,
+  backgroundcolor=\color{White},
+  tabsize=4,
+  language={},
+}
+
+\lstdefinestyle{TeX}{
+  basicstyle={\ttfamily\footnotesize},
+  breaklines=true,
+  keywordstyle=\color{Red},
+  otherkeywords={},
+  morekeywords={},
+  identifierstyle=\color{darkgray},
+  stringstyle=\color{LightCoral},
+  commentstyle=\color{gray},
+  showstringspaces=false,
+  numberstyle={\footnotesize \color{Black}},
+  numbersep=9pt,
+  numbers=left,
+  emph={int,char,double,float,unsigned,auto},
+  emphstyle={\color{Cerulean}},
+  frame=single,
+  backgroundcolor=\color{White},
+  tabsize=4,
+  language=[LaTeX]{TeX},
+}
+
+\lstdefinestyle{C}{
+  basicstyle={\ttfamily\footnotesize},
+  breaklines=true,
+  keywordstyle=\color{Red},
+  otherkeywords={},
+  morekeywords={},
+  identifierstyle=\color{darkgray},
+  stringstyle=\color{LightCoral},
+  commentstyle=\color{gray},
+  showstringspaces=false,
+  numberstyle={\footnotesize \color{Black}},
+  numbersep=9pt,
+  numbers=left,
+  emph={int,char,double,float,unsigned,auto},
+  emphstyle={\color{Cerulean}},
+  frame=single,
+  backgroundcolor=\color{White},
+  tabsize=4,
+  language=C,
+}
+
+\lstdefinestyle{Python}{
+  basicstyle={\ttfamily\footnotesize},
+  breaklines=true,
+  keywordstyle=\color{Red},
+  otherkeywords={},
+  morekeywords={},
+  identifierstyle=\color{darkgray},
+  stringstyle=\color{LightCoral},
+  commentstyle=\color{gray},
+  showstringspaces=false,
+  numberstyle={\footnotesize \color{Black}},
+  numbersep=9pt,
+  numbers=left,
+  emph={int,char,double,float,unsigned,auto},
+  emphstyle={\color{Cerulean}},
+  frame=single,
+  backgroundcolor=\color{White},
+  tabsize=4,
+  language=Python,
+}
+
+
+\lstdefinestyle{Golang}{
+  basicstyle={\ttfamily\footnotesize},
+  breaklines=true,
+  keywordstyle=\color{Red},
+  otherkeywords={},
+  morekeywords={},
+  identifierstyle=\color{darkgray},
+  stringstyle=\color{LightCoral},
+  commentstyle=\color{gray},
+  showstringspaces=false,
+  numberstyle={\footnotesize \color{Black}},
+  numbersep=9pt,
+  numbers=left,
+  emph={int,char,double,float,unsigned,auto},
+  emphstyle={\color{Cerulean}},
+  frame=single,
+  backgroundcolor=\color{White},
+  tabsize=4,
+  language=Golang,
+}
+
+\lstdefinestyle{diff}{
+  basicstyle={\ttfamily},
+  breaklines=true,
+  keywordstyle=\color{black},
+  otherkeywords={},
+  morekeywords={},
+  identifierstyle=\color{black},
+  stringstyle=\color{black},
+  commentstyle=\color{gray},
+  showstringspaces=false,
+  numberstyle={\footnotesize \color{Black}},
+  numbersep=9pt,
+  numbers=left,
+  emph={},
+  emphstyle={\color{black}},
+  frame=single,
+  backgroundcolor=\color{White},
+  tabsize=4,
+  language=diff,
+}
+
+\begin{document}
+\ifx\undefined\sol
+\thispagestyle{empty}
+\maketitle
+\fi
+\input{body.tex}
+\end{document}
